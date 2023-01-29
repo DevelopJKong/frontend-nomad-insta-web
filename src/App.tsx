@@ -1,8 +1,13 @@
-import React from "react";
-import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import Router from "./router";
 
 function App() {
-   return <div>App</div>;
+   const { logoutRouter, loginRouter } = Router();
+   return (
+      <>
+         <RouterProvider router={logoutRouter} />
+      </>
+   );
 }
 
 export default App;
