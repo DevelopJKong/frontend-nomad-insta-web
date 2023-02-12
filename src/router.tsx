@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import Root from "./page/root";
-import Home from "./page/logout/home";
+import Home from "./page/home";
 import ErrorComponent from "./components/error-component";
+import Login from "./page/logout/login";
 
 const Router = () => {
    const logoutRouter = createBrowserRouter([
@@ -10,8 +11,13 @@ const Router = () => {
          element: <Root />,
          children: [
             {
-               path: "",
+               index: true,
                element: <Home />,
+               errorElement: <ErrorComponent />,
+            },
+            {
+               path: "login",
+               element: <Login />,
                errorElement: <ErrorComponent />,
             },
          ],
