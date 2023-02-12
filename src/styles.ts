@@ -1,0 +1,16 @@
+import { DefaultTheme, createGlobalStyle } from "styled-components";
+import reset from "styled-reset";
+
+export const lightTheme: DefaultTheme = {
+   fontColor: "#2c2c2c",
+   bgColor: "lightgray",
+};
+export const darkTheme: DefaultTheme = {
+   fontColor: "lightgray",
+   bgColor: "#2c2c2c",
+};
+
+export const GlobalStyles = createGlobalStyle`
+   ${reset}
+    background-color: ${({ theme }) => theme.bgColor};
+`;
