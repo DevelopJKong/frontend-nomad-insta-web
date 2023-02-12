@@ -6,15 +6,14 @@ import { ThemeProvider } from "styled-components";
 import { GlobalStyles, darkTheme, lightTheme } from "./styles";
 
 function App() {
-   const isLoggedIn = useReactiveVar(isLoggedInVar);
    const { logoutRouter, loginRouter } = Router();
+   const isLoggedIn = useReactiveVar(isLoggedInVar);
    const darkMode = useReactiveVar(darkModeVar);
-
    return (
       <>
          <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
             <GlobalStyles />
-            <RouterProvider router={isLoggedIn ? logoutRouter : loginRouter} />
+            <RouterProvider router={isLoggedIn ? loginRouter : logoutRouter} />
          </ThemeProvider>
       </>
    );
