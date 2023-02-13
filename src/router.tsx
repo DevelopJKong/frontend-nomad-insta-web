@@ -5,11 +5,12 @@ import ErrorComponent from "./components/error-component";
 import Check from "./page/login/check";
 import Login from "./page/logout/login";
 import SignUp from "./page/logout/sign-up";
+import routes from "./routes";
 
 const Router = () => {
    const logoutRouter = createBrowserRouter([
       {
-         path: "/",
+         path: routes.home,
          element: <Root />,
          children: [
             {
@@ -18,12 +19,12 @@ const Router = () => {
                errorElement: <ErrorComponent />,
             },
             {
-               path: "login",
+               path: routes.login,
                element: <Login />,
                errorElement: <ErrorComponent />,
             },
             {
-               path: "sign-up",
+               path: routes.signUp,
                element: <SignUp />,
                errorElement: <ErrorComponent />,
             },
@@ -32,7 +33,7 @@ const Router = () => {
    ]);
    const loginRouter = createBrowserRouter([
       {
-         path: "/",
+         path: routes.home,
          element: <Root />,
          children: [
             {
