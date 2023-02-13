@@ -9,6 +9,8 @@ import BottomBox from "../../components/auth/bottom-box";
 import styled from "styled-components";
 import { FatLink } from "../../components/shared";
 import Button from "../../components/auth/button";
+import { Helmet } from "react-helmet-async";
+import PageTitle from "../../components/page-title";
 
 const HeaderContainer = styled.div`
    display: flex;
@@ -55,6 +57,7 @@ const onFacebookSignUp = () => {
 function SignUp() {
    return (
       <AuthLayout>
+         <PageTitle title='Sign Up' />
          <FormBox type={"SIGN_UP"}>
             <HeaderContainer>
                <FontAwesomeIcon icon={faInstagram} size='3x' />
