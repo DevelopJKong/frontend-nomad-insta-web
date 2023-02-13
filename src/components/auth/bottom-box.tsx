@@ -9,6 +9,7 @@ const SBottomBox = styled(BaseBox)`
       font-weight: 600;
       margin-left: 5px;
       color: ${(props) => props.theme.accent};
+      cursor: pointer;
    }
 `;
 const BottomBox = ({ cta, link, linkText }: { cta: string; link: string; linkText: string }) => {

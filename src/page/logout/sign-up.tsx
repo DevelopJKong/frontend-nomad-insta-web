@@ -3,13 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import routes from "../../routes";
 import AuthLayout from "../../components/auth/auth-layout";
 import Separator from "../../components/auth/separator";
-import Input from "../../components/auth/input";
 import FormBox from "../../components/auth/form-box";
 import BottomBox from "../../components/auth/bottom-box";
 import styled from "styled-components";
-import { FatLink } from "../../components/shared";
+import { FatLink, Input } from "../../components/shared";
 import Button from "../../components/auth/button";
-import { Helmet } from "react-helmet-async";
 import PageTitle from "../../components/page-title";
 
 const HeaderContainer = styled.div`

@@ -5,19 +5,29 @@ import routes from "../../routes";
 import AuthLayout from "../../components/auth/auth-layout";
 import Button from "../../components/auth/button";
 import Separator from "../../components/auth/separator";
-import Input from "../../components/auth/input";
 import FormBox from "../../components/auth/form-box";
 import BottomBox from "../../components/auth/bottom-box";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import PageTitle from "../../components/page-title";
+import { Input } from "../../components/shared";
 
 interface IForm {
    username: string;
    password: string;
+   wrongPassword?: string;
 }
 
+interface IError {
+   [key: string]: {
+      type: string;
+      message: string;
+      ref: HTMLInputElement;
+   };
+}
 const FacebookLogin = styled.div`
    color: #385285;
+   cursor: pointer;
+
    span {
       margin-left: 10px;
       font-weight: 600;
@@ -33,7 +43,10 @@ function Login() {
    } = useForm<IForm>({
       mode: "onChange",
    });
-   const onValid = (data: IForm) => {
+   const onValid: SubmitHandler<IForm> = (data) => {
+      console.log(data);
+   };
+   const onInValid: SubmitErrorHandler<IError> = (data) => {
       console.log(data);
    };
    return (
@@ -43,7 +56,7 @@ function Login() {
             <div>
                <FontAwesomeIcon icon={faInstagram} size='3x' />
             </div>
-            <form>
+            <form onSubmit={handleSubmit(onValid, onInValid)}>
                <Input
                   type='text'
                   placeholder='Username'

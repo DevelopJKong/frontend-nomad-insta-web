@@ -1,5 +1,6 @@
 import styled from "styled-components";
 const SButton = styled.input`
+   cursor: pointer;
    border: none;
    border-radius: 3px;
    margin-top: 12px;
