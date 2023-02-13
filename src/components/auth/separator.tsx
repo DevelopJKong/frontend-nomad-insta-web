@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ReactNode } from "react";
 const SSeparator = styled.div`
-   margin: 20px 0px 30px 0px;
+   margin: 20px 0px 20px 0px;
    text-transform: uppercase;
    display: flex;
    justify-content: center;
