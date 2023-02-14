@@ -9,13 +9,8 @@ import FormBox from "../../components/auth/form-box";
 import BottomBox from "../../components/auth/bottom-box";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import PageTitle from "../../components/page-title";
-import { Input } from "../../components/shared";
-
-interface IForm {
-   username: string;
-   password: string;
-   wrongPassword?: string;
-}
+import { Input, IForm } from "../../components/shared";
+import FormError from "../../components/auth/form-error";
 
 interface IError {
    [key: string]: {
@@ -33,13 +28,14 @@ const FacebookLogin = styled.div`
       font-weight: 600;
    }
 `;
+
 function Login() {
    const {
       register,
       handleSubmit,
       setError,
       clearErrors,
-      formState: { errors },
+      formState: { errors, isValid },
    } = useForm<IForm>({
       mode: "onChange",
    });
@@ -67,7 +63,9 @@ function Login() {
                         message: "닉네임은 5자 이상이어야 합니다.",
                      },
                   })}
+                  hasError={Boolean(errors?.username?.message)}
                />
+               <FormError message={errors?.username?.message} />
                <Input
                   type='password'
                   placeholder='Password'
@@ -79,11 +77,13 @@ function Login() {
                      },
                      pattern: {
                         value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/,
-                        message: "비밀번호는 영문 대소문자, 숫자, 특수문자를 모두 포함해야 합니다.",
+                        message: "대 소문자, 숫자, 특수문자를 포함해야 합니다.",
                      },
                   })}
+                  hasError={Boolean(errors?.password?.message)}
                />
-               <Button type='submit' value='Log in' />
+               <FormError message={errors?.password?.message} />
+               <Button type='submit' value='Log in' disabled={!isValid} />
             </form>
             <Separator>
                <div></div>

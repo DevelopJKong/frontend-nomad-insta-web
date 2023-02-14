@@ -6,9 +6,10 @@ import Separator from "../../components/auth/separator";
 import FormBox from "../../components/auth/form-box";
 import BottomBox from "../../components/auth/bottom-box";
 import styled from "styled-components";
-import { FatLink, Input } from "../../components/shared";
+import { FatLink, Input, ISignUpForm } from "../../components/shared";
 import Button from "../../components/auth/button";
 import PageTitle from "../../components/page-title";
+import { useForm } from "react-hook-form";
 
 const HeaderContainer = styled.div`
    display: flex;
@@ -53,6 +54,15 @@ const onFacebookSignUp = () => {
 };
 
 function SignUp() {
+   const {
+      register,
+      handleSubmit,
+      setError,
+      clearErrors,
+      formState: { errors, isValid },
+   } = useForm<ISignUpForm>({
+      mode: "onChange",
+   });
    return (
       <AuthLayout>
          <PageTitle title='Sign Up' />
@@ -73,11 +83,11 @@ function SignUp() {
                <div></div>
             </Separator>
             <form>
-               <Input type='text' placeholder='Name' />
-               <Input type='email' placeholder='Email' />
-               <Input type='text' placeholder='Username' />
-               <Input type='password' placeholder='Password' />
-               <Button type='submit' value='Sign in' />
+               <Input type='text' placeholder='Name' hasError={Boolean(errors?.name?.message)} />
+               <Input type='email' placeholder='Email' hasError={Boolean(errors?.email?.message)} />
+               <Input type='text' placeholder='Username' hasError={Boolean(errors?.username?.message)} />
+               <Input type='password' placeholder='Password' hasError={Boolean(errors?.password?.message)} />
+               <Button type='submit' value='Sign in' disabled={isValid} />
             </form>
          </FormBox>
          <BottomBox cta={"Have an account?"} link={routes.login} linkText={"Sign up"} />
