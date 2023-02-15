@@ -26,6 +26,7 @@
       "react-query": "^3.39.3",
       "react-router-dom": "^6.8.0",
       "react-scripts": "5.0.1",
+      "react-toastify": "^9.1.1",
       "styled-components": "^5.3.6",
       "styled-reset": "^4.4.5",
       "subscriptions-transport-ws": "^0.11.0",

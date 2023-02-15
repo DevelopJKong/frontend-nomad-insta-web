@@ -14,6 +14,8 @@ import FormError from "../../components/auth/form-error";
 import { gql, useMutation } from "@apollo/client";
 import { logUserIn } from "../../apollo";
 import { loginMutation, loginMutationVariables } from "../../__generated__/loginMutation";
+import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 const FacebookLogin = styled.div`
    color: #385285;
@@ -23,6 +25,12 @@ const FacebookLogin = styled.div`
       margin-left: 10px;
       font-weight: 600;
    }
+`;
+
+const Notification = styled.div`
+   margin-top: 10px;
+   font-size: 12px;
+   color: #2ecc71;
 `;
 
 const LOGIN_MUTATION = gql`
@@ -36,6 +44,7 @@ const LOGIN_MUTATION = gql`
 `;
 
 function Login() {
+   const location = useLocation();
    const {
       register,
       handleSubmit,
@@ -44,7 +53,12 @@ function Login() {
       formState: { errors, isValid },
    } = useForm<IForm>({
       mode: "onChange",
+      defaultValues: {
+         email: location?.state?.email || "",
+         password: location?.state?.password || "",
+      },
    });
+   console.log(location?.state);
 
    const onCompleted = (data: loginMutation) => {
       const {
@@ -58,6 +72,11 @@ function Login() {
          }
       }
       if (token) {
+         toast.success(`Welcome to Nomad Insta`, {
+            theme: "light",
+            draggable: true,
+         });
+
          logUserIn(token);
       }
    };
@@ -86,6 +105,7 @@ function Login() {
             <div>
                <FontAwesomeIcon icon={faInstagram} size='3x' />
             </div>
+            <Notification>{location?.state?.message}</Notification>
             <form onSubmit={handleSubmit(onValid)} onClick={() => clearErrors()}>
                <Input
                   type='text'

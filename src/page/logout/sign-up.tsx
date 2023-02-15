@@ -72,6 +72,7 @@ function SignUp() {
       handleSubmit,
       setError,
       clearErrors,
+      getValues,
       formState: { errors, isValid },
    } = useForm<ISignUpForm>({
       mode: "onChange",
@@ -79,6 +80,7 @@ function SignUp() {
    const navigate = useNavigate();
 
    const onCompleted = (data: createUserMutation) => {
+      const { email, password } = getValues();
       const {
          createUser: { ok, error },
       } = data;
@@ -90,7 +92,7 @@ function SignUp() {
             });
          }
       }
-      navigate(routes.home, { replace: true });
+      navigate(routes.home, { replace: true, state: { message: "계정이 생성되었습니다. 로그인을 해 주세요.", email, password } });
    };
 
    const [createUserMutation, { loading }] = useMutation<createUserMutation, createUserMutationVariables>(CREATE_USER_MUTATION, {
@@ -126,7 +128,6 @@ function SignUp() {
          });
       }
    };
-   console.log(isValid);
 
    return (
       <AuthLayout>
