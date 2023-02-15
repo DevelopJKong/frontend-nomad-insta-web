@@ -38,4 +38,5 @@ export interface ISignUpForm extends IForm {
    firstName: string;
    lastName: string;
    username: string;
+   confirmationPassword: string;
 }

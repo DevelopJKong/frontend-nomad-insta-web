@@ -12,8 +12,7 @@ import PageTitle from "../../components/page-title";
 import { Input, IForm } from "../../components/shared";
 import FormError from "../../components/auth/form-error";
 import { gql, useMutation } from "@apollo/client";
-import { LOCAL_STORAGE_TOKEN } from "../../constants";
-import { authTokenVar, isLoggedInVar, logUserIn } from "../../apollo";
+import { logUserIn } from "../../apollo";
 import { loginMutation, loginMutationVariables } from "../../__generated__/loginMutation";
 
 const FacebookLogin = styled.div`
@@ -63,7 +62,7 @@ function Login() {
       }
    };
 
-   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<loginMutation, loginMutationVariables>(LOGIN_MUTATION, {
+   const [loginMutation, { loading }] = useMutation<loginMutation, loginMutationVariables>(LOGIN_MUTATION, {
       onCompleted,
    });
    const onValid: SubmitHandler<IForm> = ({ email, password }) => {
@@ -92,10 +91,14 @@ function Login() {
                   type='text'
                   placeholder='Email'
                   {...register("email", {
-                     required: "닉네임은 필수입니다.",
+                     required: "이메일은 필수입니다.",
                      minLength: {
                         value: 5,
-                        message: "닉네임은 5자 이상이어야 합니다.",
+                        message: "이메일은 5자 이상이어야 합니다.",
+                     },
+                     pattern: {
+                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                        message: "이메일 형식이 아닙니다.",
                      },
                   })}
                   hasError={Boolean(errors?.email?.message)}
