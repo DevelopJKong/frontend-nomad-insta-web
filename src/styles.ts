@@ -3,16 +3,26 @@ import reset from "styled-reset";
 
 export const lightTheme: DefaultTheme = {
    accent: "#0095f6",
-   fontColor: "white",
-   bgColor: "#2c2c2c",
+   fontColor: "rgb(38, 38, 38)",
+   bgColor: "#FAFAFA",
    borderColor: "rgb(219, 219, 219)",
+   fontSize: {
+      small: "12px",
+      medium: "14px",
+      large: "16px",
+   },
 };
 
 export const darkTheme: DefaultTheme = {
    accent: "#0095f6",
    fontColor: "white",
-   bgColor: "#2c2c2c",
+   bgColor: "#353b48",
    borderColor: "rgb(219, 219, 219)",
+   fontSize: {
+      small: "12px",
+      medium: "14px",
+      large: "16px",
+   },
 };
 export const GlobalStyles = createGlobalStyle`
     ${reset}
@@ -23,10 +33,10 @@ export const GlobalStyles = createGlobalStyle`
       box-sizing:border-box;
     }
     body {
-        background-color: #FAFAFA;
-        font-size:14px;
+        background-color: ${({ theme }) => theme.bgColor};
+        font-size:${({ theme }) => theme.fontSize.medium};
         font-family:'Open Sans', sans-serif;
-        color:rgb(38, 38, 38);
+        color: ${({ theme }) => theme.fontColor};
     }
     a {
       text-decoration: none;

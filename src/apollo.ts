@@ -2,12 +2,14 @@ import { ApolloClient, InMemoryCache, createHttpLink, makeVar, split } from "@ap
 import { setContext } from "@apollo/client/link/context";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { WebSocketLink } from "@apollo/client/link/ws";
-import { LOCAL_STORAGE_TOKEN } from "./constants";
+import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_DARK_MODE } from "./constants";
 
 const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
+const mode = Boolean(localStorage.getItem(LOCAL_STORAGE_DARK_MODE));
 
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
+export const darkModeVar = makeVar(mode);
 
 export const logUserIn = (token: string) => {
    localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
@@ -19,6 +21,16 @@ export const logUserOut = () => {
    localStorage.removeItem(LOCAL_STORAGE_TOKEN);
    authTokenVar("");
    isLoggedInVar(false);
+};
+
+export const enableDarkMode = () => {
+   localStorage.setItem(LOCAL_STORAGE_DARK_MODE, "enabled");
+   darkModeVar(true);
+};
+
+export const disableDarkMode = () => {
+   localStorage.removeItem(LOCAL_STORAGE_DARK_MODE);
+   darkModeVar(false);
 };
 
 const httpLink = createHttpLink({
@@ -67,6 +79,11 @@ export const client = new ApolloClient({
                token: {
                   read() {
                      return authTokenVar();
+                  },
+               },
+               darkMode: {
+                  read() {
+                     return darkModeVar();
                   },
                },
             },
