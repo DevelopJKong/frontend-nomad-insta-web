@@ -17,7 +17,6 @@ function App() {
 
    const { logoutRouter, loginRouter } = Router();
    const isLoggedIn = useReactiveVar(isLoggedInVar);
-   console.log("isLoggedIn", isLoggedIn);
    return (
       <>
          <ThemeProvider theme={lightTheme}>

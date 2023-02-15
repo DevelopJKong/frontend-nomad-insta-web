@@ -9,6 +9,18 @@ const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
 export const isLoggedInVar = makeVar(Boolean(token));
 export const authTokenVar = makeVar(token);
 
+export const logUserIn = (token: string) => {
+   localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
+   authTokenVar(token);
+   isLoggedInVar(true);
+};
+
+export const logUserOut = () => {
+   localStorage.removeItem(LOCAL_STORAGE_TOKEN);
+   authTokenVar("");
+   isLoggedInVar(false);
+};
+
 const httpLink = createHttpLink({
    uri: "http://localhost:5000/graphql",
 });

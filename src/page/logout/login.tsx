@@ -13,7 +13,7 @@ import { Input, IForm } from "../../components/shared";
 import FormError from "../../components/auth/form-error";
 import { gql, useMutation } from "@apollo/client";
 import { LOCAL_STORAGE_TOKEN } from "../../constants";
-import { authTokenVar, isLoggedInVar } from "../../apollo";
+import { authTokenVar, isLoggedInVar, logUserIn } from "../../apollo";
 import { loginMutation, loginMutationVariables } from "../../__generated__/loginMutation";
 
 const FacebookLogin = styled.div`
@@ -51,7 +51,6 @@ function Login() {
       const {
          login: { ok, error, token },
       } = data;
-      console.log(data);
       if (!ok) {
          if (error) {
             return setError("result", {
@@ -60,9 +59,7 @@ function Login() {
          }
       }
       if (token) {
-         localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
-         authTokenVar(token);
-         isLoggedInVar(true);
+         logUserIn(token);
       }
    };
 
@@ -122,6 +119,7 @@ function Login() {
                />
                <FormError message={errors?.password?.message} />
                <Button type='submit' value={loading ? "Loading..." : "Log in"} disabled={!isValid || loading} />
+               <FormError message={errors?.result?.message} />
             </form>
             <Separator>
                <div></div>
