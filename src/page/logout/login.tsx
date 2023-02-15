@@ -7,18 +7,15 @@ import Button from "../../components/auth/button";
 import Separator from "../../components/auth/separator";
 import FormBox from "../../components/auth/form-box";
 import BottomBox from "../../components/auth/bottom-box";
-import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import PageTitle from "../../components/page-title";
 import { Input, IForm } from "../../components/shared";
 import FormError from "../../components/auth/form-error";
+import { gql, useMutation } from "@apollo/client";
+import { LOCAL_STORAGE_TOKEN } from "../../constants";
+import { authTokenVar, isLoggedInVar } from "../../apollo";
+import { loginMutation, loginMutationVariables } from "../../__generated__/loginMutation";
 
-interface IError {
-   [key: string]: {
-      type: string;
-      message: string;
-      ref: HTMLInputElement;
-   };
-}
 const FacebookLogin = styled.div`
    color: #385285;
    cursor: pointer;
@@ -26,6 +23,16 @@ const FacebookLogin = styled.div`
    span {
       margin-left: 10px;
       font-weight: 600;
+   }
+`;
+
+const LOGIN_MUTATION = gql`
+   mutation loginMutation($loginInput: LoginInput!) {
+      login(input: $loginInput) {
+         ok
+         error
+         token
+      }
    }
 `;
 
@@ -39,12 +46,43 @@ function Login() {
    } = useForm<IForm>({
       mode: "onChange",
    });
-   const onValid: SubmitHandler<IForm> = (data) => {
+
+   const onCompleted = (data: loginMutation) => {
+      const {
+         login: { ok, error, token },
+      } = data;
       console.log(data);
+      if (!ok) {
+         if (error) {
+            return setError("result", {
+               message: error,
+            });
+         }
+      }
+      if (token) {
+         localStorage.setItem(LOCAL_STORAGE_TOKEN, token);
+         authTokenVar(token);
+         isLoggedInVar(true);
+      }
    };
-   const onInValid: SubmitErrorHandler<IError> = (data) => {
-      console.log(data);
+
+   const [loginMutation, { data: loginMutationResult, loading }] = useMutation<loginMutation, loginMutationVariables>(LOGIN_MUTATION, {
+      onCompleted,
+   });
+   const onValid: SubmitHandler<IForm> = ({ email, password }) => {
+      if (loading) {
+         return;
+      }
+      loginMutation({
+         variables: {
+            loginInput: {
+               email,
+               password,
+            },
+         },
+      });
    };
+
    return (
       <AuthLayout>
          <PageTitle title='Login' />
@@ -52,20 +90,20 @@ function Login() {
             <div>
                <FontAwesomeIcon icon={faInstagram} size='3x' />
             </div>
-            <form onSubmit={handleSubmit(onValid, onInValid)}>
+            <form onSubmit={handleSubmit(onValid)} onClick={() => clearErrors()}>
                <Input
                   type='text'
-                  placeholder='Username'
-                  {...register("username", {
+                  placeholder='Email'
+                  {...register("email", {
                      required: "닉네임은 필수입니다.",
                      minLength: {
                         value: 5,
                         message: "닉네임은 5자 이상이어야 합니다.",
                      },
                   })}
-                  hasError={Boolean(errors?.username?.message)}
+                  hasError={Boolean(errors?.email?.message)}
                />
-               <FormError message={errors?.username?.message} />
+               <FormError message={errors?.email?.message} />
                <Input
                   type='password'
                   placeholder='Password'
@@ -83,7 +121,7 @@ function Login() {
                   hasError={Boolean(errors?.password?.message)}
                />
                <FormError message={errors?.password?.message} />
-               <Button type='submit' value='Log in' disabled={!isValid} />
+               <Button type='submit' value={loading ? "Loading..." : "Log in"} disabled={!isValid || loading} />
             </form>
             <Separator>
                <div></div>

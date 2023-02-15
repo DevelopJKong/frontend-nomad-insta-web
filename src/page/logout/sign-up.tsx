@@ -83,14 +83,15 @@ function SignUp() {
                <div></div>
             </Separator>
             <form>
-               <Input type='text' placeholder='Name' hasError={Boolean(errors?.name?.message)} />
-               <Input type='email' placeholder='Email' hasError={Boolean(errors?.email?.message)} />
                <Input type='text' placeholder='Username' hasError={Boolean(errors?.username?.message)} />
+               <Input type='text' placeholder='First Name' hasError={Boolean(errors?.username?.message)} />
+               <Input type='text' placeholder='Last Name' hasError={Boolean(errors?.username?.message)} />
+               <Input type='email' placeholder='Email' hasError={Boolean(errors?.email?.message)} />
                <Input type='password' placeholder='Password' hasError={Boolean(errors?.password?.message)} />
                <Button type='submit' value='Sign in' disabled={isValid} />
             </form>
          </FormBox>
-         <BottomBox cta={"Have an account?"} link={routes.login} linkText={"Sign up"} />
+         <BottomBox cta={"Have an account?"} link={routes.login} linkText={"Login"} />
       </AuthLayout>
    );
 }

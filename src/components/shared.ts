@@ -28,12 +28,14 @@ export const Input = styled.input<{ hasError: boolean }>`
 `;
 
 export interface IForm {
-   username: string;
+   email: string;
    password: string;
    wrongPassword?: string;
+   result?: string;
 }
 
 export interface ISignUpForm extends IForm {
-   email: string;
-   name: string;
+   firstName: string;
+   lastName: string;
+   username: string;
 }

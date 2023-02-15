@@ -1,17 +1,26 @@
 import { RouterProvider } from "react-router-dom";
 import Router from "./router";
-import { isLoggedInVar, darkModeVar } from "./apollo";
-import { useReactiveVar } from "@apollo/client";
+import { isLoggedInVar } from "./apollo";
+import { useReactiveVar, gql, useQuery } from "@apollo/client";
 import { ThemeProvider } from "styled-components";
-import { GlobalStyles, darkTheme, lightTheme } from "./styles";
+import { GlobalStyles, lightTheme } from "./styles";
 
 function App() {
+   const HEALTH_CHECK = gql`
+      query healthCheck {
+         hi {
+            ok
+         }
+      }
+   `;
+   useQuery(HEALTH_CHECK);
+
    const { logoutRouter, loginRouter } = Router();
    const isLoggedIn = useReactiveVar(isLoggedInVar);
-   const darkMode = useReactiveVar(darkModeVar);
+   console.log("isLoggedIn", isLoggedIn);
    return (
       <>
-         <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+         <ThemeProvider theme={lightTheme}>
             <GlobalStyles />
             <RouterProvider router={isLoggedIn ? loginRouter : logoutRouter} />
          </ThemeProvider>
