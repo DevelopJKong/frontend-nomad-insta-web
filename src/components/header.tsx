@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { isLoggedInVar } from '../apollo';
 import { useReactiveVar } from '@apollo/client';
-import { faCompass, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faCompass } from '@fortawesome/free-regular-svg-icons';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import routes from '../routes';
@@ -20,7 +20,7 @@ const SHeader = styled.header`
    justify-content: center;
 `;
 const Wrapper = styled.div`
-   max-width: 1200px;
+   max-width: 930px;
    width: 100%;
    display: flex;
    justify-content: space-between;
@@ -31,6 +31,13 @@ const Column = styled.div``;
 
 const Icon = styled.span`
    margin-left: 15px;
+`;
+const IconWrapper = styled.div`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+   height: 100%;
 `;
 
 const IconContainer = styled.div`
@@ -58,13 +65,17 @@ const Header = () => {
                {isLoggedInIn ? (
                   <IconContainer>
                      <Icon>
-                        <FontAwesomeIcon icon={faHome} size='lg' />
+                        <IconWrapper>
+                           <FontAwesomeIcon icon={faHome} size='lg' />
+                        </IconWrapper>
                      </Icon>
                      <Icon>
-                        <FontAwesomeIcon icon={faCompass} size='lg' />
+                        <IconWrapper>
+                           <FontAwesomeIcon icon={faCompass} size='lg' />
+                        </IconWrapper>
                      </Icon>
                      <Icon>
-                        <Avatar url={data?.me?.avatar} />
+                        <Avatar isLarge={true} url={data?.me?.user?.avatar} />
                      </Icon>
                   </IconContainer>
                ) : (
