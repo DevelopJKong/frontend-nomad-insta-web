@@ -8,19 +8,19 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import routes from '../routes';
 import useUser from '../hooks/use-user.hook';
+import Avatar from './avatar';
 
 const SHeader = styled.header`
    width: 100%;
-   border-radius: 1px solid ${({ theme }) => theme.borderColor};
-   background-color: ${({ theme }) => theme.bgColor};
-   padding: 10px 0;
+   border-bottom: 1px solid ${(props) => props.theme.borderColor};
+   background-color: ${(props) => props.theme.bgColor};
+   padding: 18px 0px;
    display: flex;
    align-items: center;
    justify-content: center;
 `;
-
 const Wrapper = styled.div`
-   max-width: 930px;
+   max-width: 1200px;
    width: 100%;
    display: flex;
    justify-content: space-between;
@@ -33,6 +33,10 @@ const Icon = styled.span`
    margin-left: 15px;
 `;
 
+const IconContainer = styled.div`
+   display: flex;
+`;
+
 const Button = styled.span`
    background-color: ${({ theme }) => theme.accent};
    border-radius: 4px;
@@ -43,7 +47,7 @@ const Button = styled.span`
 
 const Header = () => {
    const isLoggedInIn = useReactiveVar(isLoggedInVar);
-   const loggedInUser = useUser();
+   const { data } = useUser();
    return (
       <SHeader>
          <Wrapper>
@@ -52,7 +56,7 @@ const Header = () => {
             </Column>
             <Column>
                {isLoggedInIn ? (
-                  <>
+                  <IconContainer>
                      <Icon>
                         <FontAwesomeIcon icon={faHome} size='lg' />
                      </Icon>
@@ -60,9 +64,9 @@ const Header = () => {
                         <FontAwesomeIcon icon={faCompass} size='lg' />
                      </Icon>
                      <Icon>
-                        <FontAwesomeIcon icon={faUser} size='lg' />
+                        <Avatar url={data?.me?.avatar} />
                      </Icon>
-                  </>
+                  </IconContainer>
                ) : (
                   <Link to={routes.home}>
                      <Button>Login</Button>

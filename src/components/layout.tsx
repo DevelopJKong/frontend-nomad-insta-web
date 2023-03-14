@@ -3,8 +3,7 @@ import Header from './header';
 import styled from 'styled-components';
 
 const Content = styled.main`
-   margin-top: 45px;
-   max-width: 930px;
+   max-width: 1200px;
    width: 100%;
    margin: 0 auto;
 `;

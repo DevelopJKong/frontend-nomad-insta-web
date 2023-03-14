@@ -1,0 +1,29 @@
+{
+   //* 기본 정보 👇
+   // IntelliSense를 사용하여 가능한 특성에 대해 알아보세요.
+   // 기존 특성에 대한 설명을 보려면 가리킵니다.
+   // 자세한 내용을 보려면 https://go.microsoft.com/fwlink/?linkid=830387을(를) 방문하세요.
+
+   //! 참고 링크 => https://code.visualstudio.com/docs/nodejs/reactjs-tutorial
+
+   /**
+    *   ? react에서 사용할수있는 디버깅 방법
+    *   react에서 사용할수있는 디버깅 방식은 아래와 같습니다
+    *   주로 brave 브라우저로 사용해서 brave 브라우저로 사용하려고 했지만
+    *   chrome도 나쁘지 않은거 같아서 디버깅할때는 chrome으로 진행하려고 합니다
+    */
+
+   "version": "0.2.0",
+   "configurations": [
+      {
+         "type": "chrome",
+         "name": "Dedegging",
+         "request": "launch",
+         "skipFiles": ["<node_internals>/**"],
+         "sourceMaps": true,
+         "cwd": "${workspaceRoot}",
+         "url": "http://localhost:3000",
+         "webRoot": "${workspaceFolder}"
+      }
+   ]
+}

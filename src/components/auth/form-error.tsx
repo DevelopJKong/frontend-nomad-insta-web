@@ -4,7 +4,7 @@ const SFormError = styled.div`
    color: tomato;
    font-weight: 600;
    font-size: 12px;
-   margin: 5px 0px 10px 0px;
+   margin: 4% 0px 2% 0px;
 `;
 
 const FormError = ({ message }: { message?: string }) => {

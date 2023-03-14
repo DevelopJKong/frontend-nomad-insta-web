@@ -6,6 +6,9 @@ declare module 'styled-components' {
       bgColor: string;
       fontColor: string;
       borderColor: string;
+      color: {
+         dark: string;
+      };
       fontSize: {
          small: string;
          medium: string;

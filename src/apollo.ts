@@ -34,11 +34,11 @@ export const disableDarkMode = () => {
 };
 
 const httpLink = createHttpLink({
-   uri: 'http://localhost:5000/graphql',
+   uri: `${process.env.REACT_APP_BACKEND_URL}/graphql`,
 });
 
 const wsLink = new WebSocketLink({
-   uri: `ws://localhost:5000/graphql`,
+   uri: `${process.env.REACT_APP_WEBSOCKET_URL}/graphql`,
    options: {
       reconnect: true,
       connectionParams: {

@@ -6,6 +6,9 @@ export const lightTheme: DefaultTheme = {
    fontColor: 'rgb(38, 38, 38)',
    bgColor: '#FAFAFA',
    borderColor: 'rgb(219, 219, 219)',
+   color: {
+      dark: '2c2c2c',
+   },
    fontSize: {
       small: '12px',
       medium: '14px',
@@ -18,6 +21,9 @@ export const darkTheme: DefaultTheme = {
    fontColor: 'white',
    bgColor: '#353b48',
    borderColor: 'rgb(219, 219, 219)',
+   color: {
+      dark: '2c2c2c',
+   },
    fontSize: {
       small: '12px',
       medium: '14px',
