@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const SFormError = styled.div`
    color: tomato;
@@ -8,7 +8,7 @@ const SFormError = styled.div`
 `;
 
 const FormError = ({ message }: { message?: string }) => {
-   return message === "" || !message ? null : <SFormError>{message}</SFormError>;
+   return message === '' || !message ? null : <SFormError>{message}</SFormError>;
 };
 
 export default FormError;

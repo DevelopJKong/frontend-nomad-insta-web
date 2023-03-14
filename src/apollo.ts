@@ -1,8 +1,8 @@
-import { ApolloClient, InMemoryCache, createHttpLink, makeVar, split } from "@apollo/client";
-import { setContext } from "@apollo/client/link/context";
-import { getMainDefinition } from "@apollo/client/utilities";
-import { WebSocketLink } from "@apollo/client/link/ws";
-import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_DARK_MODE } from "./constants";
+import { ApolloClient, InMemoryCache, createHttpLink, makeVar, split } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_DARK_MODE } from './constants';
 
 const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
 const mode = Boolean(localStorage.getItem(LOCAL_STORAGE_DARK_MODE));
@@ -19,12 +19,12 @@ export const logUserIn = (token: string) => {
 
 export const logUserOut = () => {
    localStorage.removeItem(LOCAL_STORAGE_TOKEN);
-   authTokenVar("");
+   authTokenVar('');
    isLoggedInVar(false);
 };
 
 export const enableDarkMode = () => {
-   localStorage.setItem(LOCAL_STORAGE_DARK_MODE, "enabled");
+   localStorage.setItem(LOCAL_STORAGE_DARK_MODE, 'enabled');
    darkModeVar(true);
 };
 
@@ -34,7 +34,7 @@ export const disableDarkMode = () => {
 };
 
 const httpLink = createHttpLink({
-   uri: "http://localhost:5000/graphql",
+   uri: 'http://localhost:5000/graphql',
 });
 
 const wsLink = new WebSocketLink({
@@ -42,7 +42,7 @@ const wsLink = new WebSocketLink({
    options: {
       reconnect: true,
       connectionParams: {
-         "x-jwt": authTokenVar() || "",
+         'x-jwt': authTokenVar() || '',
       },
    },
 });
@@ -51,7 +51,7 @@ const authLink = setContext((_, { headers }) => {
    return {
       headers: {
          ...headers,
-         "x-jwt": authTokenVar() || "",
+         'x-jwt': authTokenVar() || '',
       },
    };
 });
@@ -59,7 +59,7 @@ const authLink = setContext((_, { headers }) => {
 const splitLink = split(
    ({ query }) => {
       const definition = getMainDefinition(query);
-      return definition.kind === "OperationDefinition" && definition.operation === "subscription";
+      return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
    },
    wsLink,
    authLink.concat(httpLink),

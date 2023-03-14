@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 const SButton = styled.input`
    cursor: pointer;
    border: none;
@@ -10,7 +10,7 @@ const SButton = styled.input`
    padding: 8px 0px;
    font-weight: 600;
    width: 100%;
-   opacity: ${(props) => (props.disabled ? "0.2" : "1")};
+   opacity: ${(props) => (props.disabled ? '0.2' : '1')};
 `;
 
 const Button = (props: { type: string; value: string; disabled: boolean }) => <SButton {...props} />;

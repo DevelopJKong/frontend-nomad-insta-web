@@ -1,7 +1,7 @@
-import { Helmet } from "react-helmet-async";
+import { Helmet } from 'react-helmet-async';
 
 const PageTitle = ({ title }: { title: string }) => {
-   return <Helmet>{title} | instaclone</Helmet>;
+   return <Helmet>{title} | insta_clone</Helmet>;
 };
 
 export default PageTitle;

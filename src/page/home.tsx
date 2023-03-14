@@ -1,7 +1,7 @@
-import styled from "styled-components";
-import { isLoggedInVar, logUserOut } from "../apollo";
-import { useReactiveVar } from "@apollo/client";
-import { useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+import { isLoggedInVar, logUserOut } from '../apollo';
+import { useReactiveVar } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div``;
 
@@ -14,11 +14,11 @@ const Home = () => {
    const isLoggedIn = useReactiveVar(isLoggedInVar);
    const onLogout = () => {
       logUserOut();
-      navigate("/", { replace: true, state: { email: "", password: "", message: "" } });
+      navigate('/', { replace: true, state: { email: '', password: '', message: '' } });
    };
    return (
       <Container>
-         <Title>Home {isLoggedIn ? "Logout" : "Login"}</Title>
+         <Title>Home {isLoggedIn ? 'Logout' : 'Login'}</Title>
          <Button onClick={onLogout}>Log out now!</Button>
       </Container>
    );

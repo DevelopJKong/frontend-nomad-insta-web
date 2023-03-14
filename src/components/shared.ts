@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const BaseBox = styled.div`
    background-color: ${({ theme }) => theme.bgColor};
@@ -16,7 +16,7 @@ export const Input = styled.input<{ hasError: boolean }>`
    border-radius: 3px;
    padding: 7px;
    background-color: ${({ theme }) => theme.bgColor};
-   border: 0.5px solid ${({ theme, hasError }) => (hasError ? "tomato" : theme.borderColor)};
+   border: 0.5px solid ${({ theme, hasError }) => (hasError ? 'tomato' : theme.borderColor)};
    margin-top: 5px;
    box-sizing: border-box;
    &::placeholder {

@@ -1,10 +1,10 @@
-import styled from "styled-components";
-import { ReactNode } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useReactiveVar } from "@apollo/client";
-import { darkModeVar, disableDarkMode, enableDarkMode } from "../../apollo";
-import { faSun } from "@fortawesome/free-regular-svg-icons";
-import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import styled from 'styled-components';
+import { ReactNode } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useReactiveVar } from '@apollo/client';
+import { darkModeVar, disableDarkMode, enableDarkMode } from '../../apollo';
+import { faSun } from '@fortawesome/free-regular-svg-icons';
+import { faMoon } from '@fortawesome/free-solid-svg-icons';
 
 const Container = styled.div`
    display: flex;

@@ -1,27 +1,27 @@
-import { DefaultTheme, createGlobalStyle } from "styled-components";
-import reset from "styled-reset";
+import { DefaultTheme, createGlobalStyle } from 'styled-components';
+import reset from 'styled-reset';
 
 export const lightTheme: DefaultTheme = {
-   accent: "#0095f6",
-   fontColor: "rgb(38, 38, 38)",
-   bgColor: "#FAFAFA",
-   borderColor: "rgb(219, 219, 219)",
+   accent: '#0095f6',
+   fontColor: 'rgb(38, 38, 38)',
+   bgColor: '#FAFAFA',
+   borderColor: 'rgb(219, 219, 219)',
    fontSize: {
-      small: "12px",
-      medium: "14px",
-      large: "16px",
+      small: '12px',
+      medium: '14px',
+      large: '16px',
    },
 };
 
 export const darkTheme: DefaultTheme = {
-   accent: "#0095f6",
-   fontColor: "white",
-   bgColor: "#353b48",
-   borderColor: "rgb(219, 219, 219)",
+   accent: '#0095f6',
+   fontColor: 'white',
+   bgColor: '#353b48',
+   borderColor: 'rgb(219, 219, 219)',
    fontSize: {
-      small: "12px",
-      medium: "14px",
-      large: "16px",
+      small: '12px',
+      medium: '14px',
+      large: '16px',
    },
 };
 export const GlobalStyles = createGlobalStyle`
