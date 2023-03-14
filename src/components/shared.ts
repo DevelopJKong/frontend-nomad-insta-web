@@ -27,6 +27,9 @@ export const Input = styled.input<{ hasError: boolean }>`
       border-color: ${({ theme }) => theme.accent};
    }
 `;
+export const FatText = styled.span`
+   font-weight: 600;
+`;
 
 export interface IForm {
    email: string;
