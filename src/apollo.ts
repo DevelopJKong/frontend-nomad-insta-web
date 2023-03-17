@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, createHttpLink, makeVar, split } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_DARK_MODE } from './constants';
+import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_DARK_MODE } from './common/constants/common.constant';
 
 const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
 const mode = Boolean(localStorage.getItem(LOCAL_STORAGE_DARK_MODE));
