@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import Header from './header';
+import Header from './header.component';
 import styled from 'styled-components';
 
 const Content = styled.main`

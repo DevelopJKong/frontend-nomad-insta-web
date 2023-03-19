@@ -8,7 +8,7 @@ import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import routes from '../routes';
 import useUser from '../hooks/use-user.hook';
-import Avatar from './avatar';
+import Avatar from './avatar.component';
 
 const SHeader = styled.header`
    width: 100%;

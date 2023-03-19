@@ -1,19 +1,19 @@
 import { faInstagram, faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import routes from '../../routes';
-import AuthLayout from '../../components/auth/auth-layout';
-import Separator from '../../components/auth/separator';
-import FormBox from '../../components/auth/form-box';
-import BottomBox from '../../components/auth/bottom-box';
+import AuthLayout from '../../components/auth/auth-layout.component';
+import Separator from '../../components/auth/separator.component';
+import FormBox from '../../components/auth/form-box.component';
+import BottomBox from '../../components/auth/bottom-box.component';
 import styled from 'styled-components';
 import { FatLink, Input, ISignUpForm } from '../../components/shared';
-import Button from '../../components/auth/button';
-import PageTitle from '../../components/page-title';
+import Button from '../../components/auth/button.component';
+import PageTitle from '../../components/page-title.component';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, gql } from '@apollo/client';
 import { createUserMutation, createUserMutationVariables } from '../../__generated__/createUserMutation';
 import { useNavigate } from 'react-router-dom';
-import FormError from '../../components/auth/form-error';
+import FormError from '../../components/auth/form-error.component';
 
 const HeaderContainer = styled.div`
    display: flex;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
-import Avatar from '../components/avatar';
+import Avatar from '../components/avatar.component';
 import { FatText } from '../components/shared';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faComment, faHeart, faPaperPlane } from '@fortawesome/free-regular-svg-icons';

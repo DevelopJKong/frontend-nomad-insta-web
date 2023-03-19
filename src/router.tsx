@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Root from './page/root';
-import ErrorComponent from './components/error-component';
-import Login from './page/logout/login';
-import SignUp from './page/logout/sign-up';
+import Root from './page/root.page';
+import Error from './components/error.component';
+import Login from './common/logout/login.page';
+import SignUp from './common/logout/sign-up.page';
 import routes from './routes';
-import Home from './page/home';
-import Layout from './components/layout';
+import Home from './page/home.page';
+import Layout from './components/layout.component';
 
 const Router = () => {
    const logoutRouter = createBrowserRouter([
@@ -16,12 +16,12 @@ const Router = () => {
             {
                index: true,
                element: <Login />,
-               errorElement: <ErrorComponent />,
+               errorElement: <Error />,
             },
             {
                path: routes.signUp,
                element: <SignUp />,
-               errorElement: <ErrorComponent />,
+               errorElement: <Error />,
             },
          ],
       },
@@ -38,7 +38,7 @@ const Router = () => {
             {
                index: true,
                element: <Home />,
-               errorElement: <ErrorComponent />,
+               errorElement: <Error />,
             },
          ],
       },
