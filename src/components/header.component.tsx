@@ -6,7 +6,7 @@ import { useReactiveVar } from '@apollo/client';
 import { faCompass } from '@fortawesome/free-regular-svg-icons';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import routes from '../routes';
+import routes from '../common/routes';
 import useUser from '../hooks/use-user.hook';
 import Avatar from './avatar.component';
 
