@@ -13,9 +13,9 @@ import { Input, IForm } from '../../components/shared';
 import FormError from '../../components/auth/form-error.component';
 import { gql, useMutation } from '@apollo/client';
 import { logUserIn } from '../../apollo';
-import { loginMutation, loginMutationVariables } from '../../__generated__/loginMutation';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router-dom';
+import { loginMutation, loginMutationVariables } from '../../__generated__/loginMutation';
 
 const FacebookLogin = styled.div`
    color: #385285;
@@ -58,7 +58,6 @@ function Login() {
          password: location?.state?.password || '',
       },
    });
-   console.log(location?.state);
 
    const onCompleted = (data: loginMutation) => {
       const {

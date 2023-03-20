@@ -20,6 +20,7 @@ module.exports = {
       'coverage/',
       'src/__generated__',
       'src/types/react-app-env.d.ts',
+      'src/types/styled.d.ts',
       'apollo.config.js',
    ],
    rules: {
