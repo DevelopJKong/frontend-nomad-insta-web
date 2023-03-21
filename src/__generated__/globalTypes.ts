@@ -20,6 +20,10 @@ export interface LoginInput {
   password: string;
 }
 
+export interface ToggleLikeInput {
+  id: number;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
