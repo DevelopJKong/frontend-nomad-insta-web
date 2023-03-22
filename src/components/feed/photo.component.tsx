@@ -7,7 +7,6 @@ import Avatar from '../avatar.component';
 import { gql, useMutation } from '@apollo/client';
 import { toggleLike, toggleLikeVariables } from '../../__generated__/toggleLike';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
 
 interface IPhoto {
    id: number;
@@ -88,11 +87,33 @@ const TOGGLE_LIKE_MUTATION = gql`
 `;
 
 const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
-   const [isLikedState, setIsLikedState] = useState<boolean>(isLiked);
+   const updateToggleLike = (cache: any, result: any) => {
+      const updateData: { data: toggleLike } = result;
+      const {
+         data: {
+            toggleLike: { ok },
+         },
+      } = updateData;
+
+      if (ok) {
+         cache.writeFragment({
+            id: `Photo:${id}`,
+            fragment: gql`
+               fragment PhotoFragment on Photo {
+                  isLiked
+               }
+            `,
+            data: {
+               isLiked: !isLiked,
+            },
+         });
+      }
+   };
    const [toggleLikeMutation, { loading }] = useMutation<toggleLike, toggleLikeVariables>(TOGGLE_LIKE_MUTATION, {
       variables: {
          toggleLikeInput: { id },
       },
+      update: updateToggleLike,
    });
    return (
       <PhotoContainer key={id}>
@@ -108,10 +129,9 @@ const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
                      onClick={() => {
                         toggleLikeMutation();
                         if (loading) return;
-                        setIsLikedState((prev: boolean) => !prev);
-                        toast(isLikedState ? '👎Unlike' : '👍Like', {
+                        toast(isLiked ? '👎Unlike' : '👍Like', {
                            position: 'top-right',
-                           autoClose: 5000,
+                           autoClose: 1000,
                            hideProgressBar: true,
                            closeOnClick: true,
                            pauseOnHover: true,
@@ -121,7 +141,7 @@ const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
                         });
                      }}
                   >
-                     <FontAwesomeIcon style={{ color: isLikedState ? 'tomato' : 'inherit' }} icon={isLikedState ? SolidHeart : faHeart} />
+                     <FontAwesomeIcon style={{ color: isLiked ? 'tomato' : 'inherit' }} icon={isLiked ? SolidHeart : faHeart} />
                   </PhotoAction>
                   <PhotoAction>
                      <FontAwesomeIcon icon={faComment} />
