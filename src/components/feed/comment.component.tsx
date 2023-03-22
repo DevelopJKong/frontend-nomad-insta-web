@@ -1,6 +1,11 @@
-import sanitizeHtml from 'sanitize-html';
+import React from 'react';
 import styled from 'styled-components';
 import { FatText } from '../shared';
+import { Link } from 'react-router-dom';
+
+// ! 코드 챌린지
+// ! 만약에 @username 이라는 단어가 들어오면, Link 컴포넌트를 사용해서 해당
+// ! 유저의 프로필로 이동할 수 있도록 만들어보세요.
 
 interface IComment {
    author: string;
@@ -11,7 +16,7 @@ const CommentContainer = styled.div`
    margin-top: 10px;
    display: flex;
    align-items: center;
-   mark {
+   a {
       background-color: inherit;
       color: ${({ theme }) => theme.accent};
       cursor: pointer;
@@ -26,17 +31,20 @@ const CommentCaption = styled.div`
 `;
 
 const Comment = ({ author, payload }: IComment) => {
-   const cleanPayload = sanitizeHtml(payload.replace(/#[\w]+/g, '<mark>$&</mark>'), {
-      allowedTags: ['mark'],
-   });
    return (
       <CommentContainer>
          <FatText>{author}</FatText>
-         <CommentCaption
-            dangerouslySetInnerHTML={{
-               __html: cleanPayload,
-            }}
-         />
+         <CommentCaption>
+            {payload.split(' ').map((word: string, index: number) =>
+               /#[\w]+/.test(word) ? (
+                  <React.Fragment key={index}>
+                     <Link to={`/hashtags/${word}`}>{word}</Link>
+                  </React.Fragment>
+               ) : (
+                  <React.Fragment key={index}>{word}</React.Fragment>
+               ),
+            )}
+         </CommentCaption>
       </CommentContainer>
    );
 };
