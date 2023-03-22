@@ -150,7 +150,7 @@ const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comment
                </div>
             </PhotoActions>
             <Likes>{likes > 1 ? `${likes} likes` : `${likes} like`}</Likes>
-            <Comments author={user.username} caption={caption} commentNumber={commentNumber} comments={comments} />
+            <Comments photoId={id} author={user.username} caption={caption} commentNumber={commentNumber} comments={comments} />
          </PhotoData>
       </PhotoContainer>
    );
