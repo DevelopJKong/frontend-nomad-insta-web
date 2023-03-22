@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faPaperPlane, faBookmark, faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
 import Avatar from '../avatar.component';
-import { gql, useMutation } from '@apollo/client';
+import { ApolloCache, gql, useMutation, FetchResult } from '@apollo/client';
 import { toggleLike, toggleLikeVariables } from '../../__generated__/toggleLike';
 import { toast } from 'react-toastify';
 
@@ -87,13 +87,13 @@ const TOGGLE_LIKE_MUTATION = gql`
 `;
 
 const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
-   const updateToggleLike = (cache: any, result: any) => {
-      const updateData: { data: toggleLike } = result;
+   const updateToggleLike = (cache: ApolloCache<any>, result: Omit<FetchResult<toggleLike>, 'context'>) => {
+      if (!result.data) return;
       const {
          data: {
             toggleLike: { ok },
          },
-      } = updateData;
+      } = result;
 
       if (ok) {
          cache.writeFragment({
