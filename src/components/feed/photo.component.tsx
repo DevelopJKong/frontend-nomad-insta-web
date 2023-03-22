@@ -78,7 +78,6 @@ const TOGGLE_LIKE_MUTATION = gql`
 `;
 
 const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comments }: IPhoto) => {
-   console.log('commentNumber', commentNumber);
    const updateToggleLike = (cache: ApolloCache<any>, result: Omit<FetchResult<toggleLike>, 'context'>) => {
       if (!result.data) return;
       const {
@@ -87,26 +86,20 @@ const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comment
          },
       } = result;
 
-      const fragmentId = `Photo:${id}`;
-      const fragment = gql`
-         fragment PhotoFragment on Photo {
-            isLiked
-            likes
-         }
-      `;
-      const readResult: { isLiked: boolean; likes: number } | null = cache.readFragment({
-         id: fragmentId,
-         fragment,
-      });
-      if (!readResult) return;
-      if (ok && 'isLiked' in readResult && 'likes' in readResult) {
-         const { isLiked: cachedIsLiked, likes: cachedLikes } = readResult;
-         cache.writeFragment({
-            id: fragmentId,
-            fragment,
-            data: {
-               isLiked: !cachedIsLiked,
-               likes: cachedIsLiked ? cachedLikes - 1 : cachedLikes + 1,
+      const photoId = `Photo:${id}`;
+      if (ok) {
+         cache.modify({
+            id: photoId,
+            fields: {
+               isLiked(prev) {
+                  return !prev;
+               },
+               likes(prev) {
+                  if (isLiked) {
+                     return prev - 1;
+                  }
+                  return prev + 1;
+               },
             },
          });
       }
