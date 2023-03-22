@@ -1,23 +1,13 @@
 import styled from 'styled-components';
-import { FatText } from '../shared';
+import { FatText, IPhoto } from '../shared';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComment, faPaperPlane, faBookmark, faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as SolidHeart } from '@fortawesome/free-solid-svg-icons';
 import Avatar from '../avatar.component';
 import { ApolloCache, gql, useMutation, FetchResult } from '@apollo/client';
-import { toggleLike, toggleLikeVariables } from '../../__generated__/toggleLike';
 import { toast } from 'react-toastify';
-
-interface IPhoto {
-   id: number;
-   user: {
-      username: string;
-      avatar: string;
-   };
-   file: string;
-   isLiked: boolean;
-   likes: number;
-}
+import { toggleLike } from '../../__generated__/toggleLike';
+import { toggleLikeVariables } from './../../__generated__/toggleLike';
 
 interface IPhotoAction {
    onClick?: (e: Event) => void;
@@ -76,6 +66,21 @@ const Likes = styled(FatText)`
    padding: 15px;
 `;
 
+const Comments = styled.div`
+   margin-top: 20px;
+`;
+
+const Comment = styled.div``;
+
+const CommentCaption = styled.span`
+   margin-left: 5px;
+`;
+
+const CommentCount = styled.span`
+   opacity: 0.7;
+   font-size: ${({ theme }) => theme.fontSize.small};
+`;
+
 const TOGGLE_LIKE_MUTATION = gql`
    mutation toggleLike($toggleLikeInput: ToggleLikeInput!) {
       toggleLike(input: $toggleLikeInput) {
@@ -86,8 +91,8 @@ const TOGGLE_LIKE_MUTATION = gql`
    }
 `;
 
-const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
-   console.log('likes', likes);
+const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comments }: IPhoto) => {
+   console.log('commentNumber', commentNumber);
    const updateToggleLike = (cache: ApolloCache<any>, result: Omit<FetchResult<toggleLike>, 'context'>) => {
       if (!result.data) return;
       const {
@@ -166,6 +171,14 @@ const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
                </div>
             </PhotoActions>
             <Likes>{likes > 1 ? `${likes} likes` : `${likes} like`}</Likes>
+            <Comments>
+               <Comment>
+                  <FatText>{user.username}</FatText>
+                  <CommentCaption>{caption}</CommentCaption>
+                  <br />
+                  <CommentCount>{commentNumber > 1 ? `${commentNumber} comments` : `${commentNumber} comment`}</CommentCount>
+               </Comment>
+            </Comments>
          </PhotoData>
       </PhotoContainer>
    );

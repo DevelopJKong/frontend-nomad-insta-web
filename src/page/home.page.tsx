@@ -2,21 +2,8 @@ import styled from 'styled-components';
 import { gql, useQuery } from '@apollo/client';
 import Photo from '../components/feed/photo.component';
 import PageTitle from '../components/page-title.component';
-
-interface IPhoto {
-   id: number;
-   user: {
-      username: string;
-      avatar: string;
-   };
-   file: string;
-   caption: string;
-   likes: number;
-   comments: number;
-   createdAt: string;
-   isMine: boolean;
-   isLiked: boolean;
-}
+import { logUserOut } from '../apollo';
+import { IPhoto } from '../components/shared';
 
 const Container = styled.div``;
 
@@ -32,23 +19,41 @@ const FEED_QUERY = gql`
             file
             caption
             likes
-            comments
+            commentNumber
             createdAt
             isMine
             isLiked
+            comments {
+               id
+               user {
+                  username
+                  avatar
+               }
+               payload
+               isMine
+               createdAt
+            }
          }
       }
    }
 `;
 
 const Home = () => {
-   const { data } = useQuery(FEED_QUERY);
+   const { data, loading } = useQuery(FEED_QUERY);
+
+   if (loading) return <div>Loading...</div>;
+   if (!loading && !data?.seeFeed) {
+      window.location.href = '/';
+      logUserOut();
+      return null;
+   }
+
    return (
       <Container>
          <PageTitle title='Home' />
-         {data?.seeFeed?.photos?.map((photo: IPhoto) => (
-            <Photo key={photo.id} id={photo.id} user={photo.user} file={photo.file} isLiked={photo.isLiked} likes={photo.likes} />
-         ))}
+         {data?.seeFeed?.photos?.map((photo: IPhoto) => {
+            return <Photo key={photo.id} {...photo} />;
+         })}
       </Container>
    );
 };
