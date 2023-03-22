@@ -87,6 +87,7 @@ const TOGGLE_LIKE_MUTATION = gql`
 `;
 
 const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
+   console.log('likes', likes);
    const updateToggleLike = (cache: ApolloCache<any>, result: Omit<FetchResult<toggleLike>, 'context'>) => {
       if (!result.data) return;
       const {
@@ -95,16 +96,26 @@ const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
          },
       } = result;
 
-      if (ok) {
+      const fragmentId = `Photo:${id}`;
+      const fragment = gql`
+         fragment PhotoFragment on Photo {
+            isLiked
+            likes
+         }
+      `;
+      const readResult: { isLiked: boolean; likes: number } | null = cache.readFragment({
+         id: fragmentId,
+         fragment,
+      });
+      if (!readResult) return;
+      if (ok && 'isLiked' in readResult && 'likes' in readResult) {
+         const { isLiked: cachedIsLiked, likes: cachedLikes } = readResult;
          cache.writeFragment({
-            id: `Photo:${id}`,
-            fragment: gql`
-               fragment PhotoFragment on Photo {
-                  isLiked
-               }
-            `,
+            id: fragmentId,
+            fragment,
             data: {
-               isLiked: !isLiked,
+               isLiked: !cachedIsLiked,
+               likes: cachedIsLiked ? cachedLikes - 1 : cachedLikes + 1,
             },
          });
       }
@@ -154,7 +165,7 @@ const Photo = ({ id, user, file, isLiked, likes }: IPhoto) => {
                   <FontAwesomeIcon icon={faBookmark} />
                </div>
             </PhotoActions>
-            <Likes>{likes === 0 ? '1 like' : `${likes} likes`}</Likes>
+            <Likes>{likes > 1 ? `${likes} likes` : `${likes} like`}</Likes>
          </PhotoData>
       </PhotoContainer>
    );
