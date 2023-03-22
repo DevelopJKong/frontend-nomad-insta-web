@@ -14,6 +14,7 @@ export interface createComment_createComment {
   ok: boolean;
   error: string | null;
   message: string | null;
+  id: number;
 }
 
 export interface createComment {

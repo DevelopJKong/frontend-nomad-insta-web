@@ -2,8 +2,9 @@ import styled from 'styled-components';
 import { ICommentData } from '../shared';
 import Comment from './comment.component';
 import { useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, ApolloCache, FetchResult } from '@apollo/client';
 import { createComment, createCommentVariables } from '../../__generated__/createComment';
+import useUser from '../../hooks/use-user.hook';
 
 interface ICommentInput {
    payload: string;
@@ -45,16 +46,54 @@ const CREATE_COMMENT_MUTATION = gql`
          ok
          error
          message
+         id
       }
    }
 `;
 
 const Comments = ({ photoId, author, caption, commentNumber, comments }: IComments) => {
-   const { register, handleSubmit, clearErrors, setValue } = useForm<ICommentInput>({
+   const { data: userData } = useUser();
+   const { register, handleSubmit, clearErrors, setValue, getValues } = useForm<ICommentInput>({
       mode: 'onChange',
    });
 
-   const [createCommentMutation, { loading }] = useMutation<createComment, createCommentVariables>(CREATE_COMMENT_MUTATION);
+   const createCommentUpdate = (cache: ApolloCache<any>, result: Omit<FetchResult<createComment>, 'context'>) => {
+      if (!result.data) return;
+      const { payload } = getValues();
+      setValue('payload', '');
+      const {
+         data: {
+            createComment: { ok, id },
+         },
+      } = result;
+      if (ok && id && userData?.me) {
+         const newComment = {
+            __typename: 'Comment',
+            createdAt: String(Date.now()),
+            id,
+            isMine: true,
+            payload,
+            user: {
+               ...userData.me,
+            },
+         };
+         cache.modify({
+            id: `Photo:${photoId}`,
+            fields: {
+               comments(prev) {
+                  return [...prev, newComment];
+               },
+               commentNumber(prev) {
+                  return prev + 1;
+               },
+            },
+         });
+      }
+   };
+
+   const [createCommentMutation, { loading }] = useMutation<createComment, createCommentVariables>(CREATE_COMMENT_MUTATION, {
+      update: createCommentUpdate,
+   });
 
    const onValid = (data: ICommentInput) => {
       const { payload } = data;
@@ -69,7 +108,6 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }: ICommen
             },
          },
       });
-      setValue('payload', '');
    };
 
    return (
