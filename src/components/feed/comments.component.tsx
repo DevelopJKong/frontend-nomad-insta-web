@@ -3,8 +3,8 @@ import { ICommentData } from '../shared';
 import Comment from './comment.component';
 import { useForm } from 'react-hook-form';
 import { gql, useMutation, ApolloCache, FetchResult } from '@apollo/client';
-import { createComment, createCommentVariables } from '../../__generated__/createComment';
 import useUser from '../../hooks/use-user.hook';
+import { createComment, createCommentVariables } from '../../__generated__/createComment';
 
 interface ICommentInput {
    payload: string;
@@ -66,7 +66,7 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }: ICommen
             createComment: { ok, id },
          },
       } = result;
-      if (ok && id && userData?.me) {
+      if (ok && userData?.me) {
          const newComment = {
             __typename: 'Comment',
             createdAt: String(Date.now()),
@@ -80,7 +80,7 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }: ICommen
          const newCacheComment = cache.writeFragment({
             data: newComment,
             fragment: gql`
-               fragment CommentFragment on Comment {
+               fragment BSName on Comment {
                   id
                   createdAt
                   isMine
@@ -105,7 +105,6 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }: ICommen
          });
       }
    };
-
    const [createCommentMutation, { loading }] = useMutation<createComment, createCommentVariables>(CREATE_COMMENT_MUTATION, {
       update: createCommentUpdate,
    });
@@ -130,7 +129,16 @@ const Comments = ({ photoId, author, caption, commentNumber, comments }: ICommen
          <Comment author={author} payload={caption} />
          <CommentCount>{commentNumber > 1 ? `${commentNumber} comments` : `${commentNumber} comment`}</CommentCount>
          {comments?.map((comment) => {
-            return <Comment key={comment.id} author={comment.user.username} payload={comment.payload} />;
+            return (
+               <Comment
+                  key={comment.id}
+                  id={comment.id}
+                  author={comment.user.username}
+                  payload={comment.payload}
+                  isMine={comment.isMine}
+                  photoId={photoId}
+               />
+            );
          })}
          <PostCommentContainer>
             <form onSubmit={handleSubmit(onValid)} onClick={() => clearErrors()}>

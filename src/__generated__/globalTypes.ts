@@ -20,6 +20,10 @@ export interface CreateUserInput {
   password: string;
 }
 
+export interface DeleteCommentInput {
+  id: number;
+}
+
 export interface LoginInput {
   email: string;
   password: string;
