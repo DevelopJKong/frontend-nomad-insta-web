@@ -45,7 +45,7 @@ export interface ISignUpForm extends IForm {
    confirmationPassword: string;
 }
 
-export interface IComment {
+export interface ICommentData {
    id: number;
    user: {
       username: string;
@@ -64,7 +64,7 @@ export interface IPhoto {
    file: string;
    caption: string;
    likes: number;
-   comments: IComment[];
+   comments: ICommentData[];
    createdAt: string;
    isMine: boolean;
    isLiked: boolean;

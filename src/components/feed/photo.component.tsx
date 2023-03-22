@@ -8,6 +8,7 @@ import { ApolloCache, gql, useMutation, FetchResult } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { toggleLike } from '../../__generated__/toggleLike';
 import { toggleLikeVariables } from './../../__generated__/toggleLike';
+import Comments from './comments.component';
 
 interface IPhotoAction {
    onClick?: (e: Event) => void;
@@ -64,21 +65,6 @@ const PhotoAction = styled.div<IPhotoAction>`
 
 const Likes = styled(FatText)`
    padding: 15px;
-`;
-
-const Comments = styled.div`
-   margin-top: 20px;
-`;
-
-const Comment = styled.div``;
-
-const CommentCaption = styled.span`
-   margin-left: 5px;
-`;
-
-const CommentCount = styled.span`
-   opacity: 0.7;
-   font-size: ${({ theme }) => theme.fontSize.small};
 `;
 
 const TOGGLE_LIKE_MUTATION = gql`
@@ -171,14 +157,7 @@ const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comment
                </div>
             </PhotoActions>
             <Likes>{likes > 1 ? `${likes} likes` : `${likes} like`}</Likes>
-            <Comments>
-               <Comment>
-                  <FatText>{user.username}</FatText>
-                  <CommentCaption>{caption}</CommentCaption>
-                  <br />
-                  <CommentCount>{commentNumber > 1 ? `${commentNumber} comments` : `${commentNumber} comment`}</CommentCount>
-               </Comment>
-            </Comments>
+            <Comments author={user.username} caption={caption} commentNumber={commentNumber} comments={comments} />
          </PhotoData>
       </PhotoContainer>
    );
