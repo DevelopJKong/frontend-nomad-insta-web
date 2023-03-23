@@ -53,7 +53,7 @@ const Button = styled.span`
 `;
 
 const Header = () => {
-   const isLoggedInIn = useReactiveVar(isLoggedInVar);
+   const isLoggedIn = useReactiveVar(isLoggedInVar);
    const { data } = useUser();
    return (
       <SHeader>
@@ -62,7 +62,7 @@ const Header = () => {
                <FontAwesomeIcon icon={faInstagram} size='2x' />
             </Column>
             <Column>
-               {isLoggedInIn ? (
+               {isLoggedIn ? (
                   <IconContainer>
                      <Icon>
                         <IconWrapper>
