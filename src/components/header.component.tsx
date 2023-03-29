@@ -75,7 +75,9 @@ const Header = () => {
                         </IconWrapper>
                      </Icon>
                      <Icon>
-                        <Avatar isLarge={true} url={data?.me?.user?.avatar} />
+                        <Link to={`/users/${data?.me?.username}`}>
+                           <Avatar isLarge={true} url={data?.me?.user?.avatar} />
+                        </Link>
                      </Icon>
                   </IconContainer>
                ) : (

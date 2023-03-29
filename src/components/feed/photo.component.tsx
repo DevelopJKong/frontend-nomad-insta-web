@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { toggleLike } from '../../__generated__/toggleLike';
 import { toggleLikeVariables } from './../../__generated__/toggleLike';
 import Comments from './comments.component';
+import { Link } from 'react-router-dom';
 
 interface IPhotoAction {
    onClick?: (e: Event) => void;
@@ -113,8 +114,12 @@ const Photo = ({ id, user, file, isLiked, likes, caption, commentNumber, comment
    return (
       <PhotoContainer key={id}>
          <PhotoHeader>
-            <Avatar isLarge={true} url={user.avatar} />
-            <Username>{user.username}</Username>
+            <Link to={`/users/${user.username}`}>
+               <Avatar isLarge={true} url={user.avatar} />
+            </Link>
+            <Link to={`/users/${user.username}`}>
+               <Username>{user.username}</Username>
+            </Link>
          </PhotoHeader>
          <PhotoFile src={file} />
          <PhotoData>

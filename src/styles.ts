@@ -45,6 +45,7 @@ export const GlobalStyles = createGlobalStyle`
         color: ${({ theme }) => theme.fontColor};
     }
     a {
+      color:inherit;
       text-decoration: none;
     }
 `;

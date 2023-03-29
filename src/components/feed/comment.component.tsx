@@ -79,7 +79,9 @@ const Comment = ({ id, author, payload, isMine, photoId }: IComment) => {
    };
    return (
       <CommentContainer>
-         <FatText>{author}</FatText>
+         <Link to={`/users/${author}`}>
+            <FatText>{author}</FatText>
+         </Link>
          <CommentCaption>
             {payload.split(' ').map((word: string, index: number) =>
                /#[\w]+/.test(word) ? (

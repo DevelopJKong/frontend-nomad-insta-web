@@ -6,6 +6,7 @@ import SignUp from './page/logout/sign-up.page';
 import routes from './common/routes';
 import Home from './page/home.page';
 import Layout from './components/layout.component';
+import Profile from './page/login/profile.page';
 
 const Router = () => {
    const logoutRouter = createBrowserRouter([
@@ -38,6 +39,11 @@ const Router = () => {
             {
                index: true,
                element: <Home />,
+               errorElement: <Error />,
+            },
+            {
+               path: routes.users,
+               element: <Profile />,
                errorElement: <Error />,
             },
          ],
