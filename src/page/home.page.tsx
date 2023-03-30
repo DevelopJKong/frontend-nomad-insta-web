@@ -4,38 +4,30 @@ import Photo from '../components/feed/photo.component';
 import PageTitle from '../components/page-title.component';
 import { logUserOut } from '../apollo';
 import { IPhoto } from '../components/shared';
+import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from '../common/fragments/common.fragment';
 
 const Container = styled.div``;
 
 const FEED_QUERY = gql`
    query seeFeed {
       seeFeed {
+         ...PhotoFragment
          photos {
-            id
             user {
                username
                avatar
             }
-            file
             caption
-            likes
-            commentNumber
             createdAt
             isMine
-            isLiked
             comments {
-               id
-               user {
-                  username
-                  avatar
-               }
-               payload
-               isMine
-               createdAt
+               ...CommentFragment
             }
          }
       }
    }
+   ${PHOTO_FRAGMENT}
+   ${COMMENT_FRAGMENT}
 `;
 
 const Home = () => {

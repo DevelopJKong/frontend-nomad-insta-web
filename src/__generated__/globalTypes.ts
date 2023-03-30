@@ -29,6 +29,10 @@ export interface LoginInput {
   password: string;
 }
 
+export interface SeeProfileInput {
+  username: string;
+}
+
 export interface ToggleLikeInput {
   id: number;
 }
