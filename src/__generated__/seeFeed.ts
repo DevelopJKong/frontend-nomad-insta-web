@@ -30,6 +30,11 @@ export interface seeFeed_seeFeed_photos_comments {
 
 export interface seeFeed_seeFeed_photos {
   __typename: "Photo";
+  id: number;
+  file: string;
+  likes: number | null;
+  commentNumber: number | null;
+  isLiked: boolean | null;
   user: seeFeed_seeFeed_photos_user | null;
   caption: string | null;
   createdAt: any | null;

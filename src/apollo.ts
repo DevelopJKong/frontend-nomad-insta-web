@@ -69,6 +69,9 @@ export const client = new ApolloClient({
    link: splitLink,
    cache: new InMemoryCache({
       typePolicies: {
+         User: {
+            keyFields: (obj) => `User:${obj.username}`,
+         },
          Query: {
             fields: {
                isLoggedIn: {

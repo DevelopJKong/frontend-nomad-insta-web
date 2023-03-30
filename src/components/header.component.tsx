@@ -55,6 +55,7 @@ const Button = styled.span`
 const Header = () => {
    const isLoggedIn = useReactiveVar(isLoggedInVar);
    const { data } = useUser();
+   console.log('data', data);
    return (
       <SHeader>
          <Wrapper>
@@ -75,7 +76,7 @@ const Header = () => {
                         </IconWrapper>
                      </Icon>
                      <Icon>
-                        <Link to={`/users/${data?.me?.username}`}>
+                        <Link to={`/users/${data?.me?.user?.username}`}>
                            <Avatar isLarge={true} url={data?.me?.user?.avatar} />
                         </Link>
                      </Icon>

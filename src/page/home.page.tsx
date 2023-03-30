@@ -11,8 +11,8 @@ const Container = styled.div``;
 const FEED_QUERY = gql`
    query seeFeed {
       seeFeed {
-         ...PhotoFragment
          photos {
+            ...PhotoFragment
             user {
                username
                avatar
