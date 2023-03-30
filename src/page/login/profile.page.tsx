@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import { FatText } from '../../components/shared';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
+import PageTitle from '../../components/page-title.component';
+
+interface IProfile {
+   isMe: boolean;
+   isFollowing: boolean;
+}
 
 const Header = styled.div`
    display: flex;
@@ -29,6 +35,7 @@ const Username = styled.div`
 const Row = styled.div`
    margin-bottom: 20px;
    font-size: 16px;
+   display: flex;
 `;
 
 const List = styled.ul`
@@ -88,6 +95,19 @@ const Icon = styled.span`
    }
 `;
 
+const ProfileBtn = styled.span`
+   cursor: pointer;
+   border: none;
+   border-radius: 3px;
+   margin-left: 10px;
+   background-color: ${(props) => props.theme.accent};
+   color: white;
+   text-align: center;
+   padding: 8px 0px;
+   font-weight: 600;
+   width: 100%;
+`;
+
 const SEE_PROFILE_QUERY = gql`
    query seeProfile($seeProfileInput: SeeProfileInput!) {
       seeProfile(input: $seeProfileInput) {
@@ -111,23 +131,53 @@ const SEE_PROFILE_QUERY = gql`
    ${PHOTO_FRAGMENT}
 `;
 
+const FOLLOW_USER_MUTATION = gql`
+   mutation followUser($followUserInput: FollowUserInput!) {
+      followUser(input: $followUserInput) {
+         ok
+      }
+   }
+`;
+
+const UN_FOLLOW_USER_MUTATION = gql`
+   mutation unFollowUser($unFollowUserInput: UnFollowUserInput!) {
+      unFollowUser(input: $unFollowUserInput) {
+         ok
+      }
+   }
+`;
+
 const Profile = () => {
    const { username } = useParams();
-   const { data } = useQuery(SEE_PROFILE_QUERY, {
+   const { data, loading } = useQuery(SEE_PROFILE_QUERY, {
       variables: {
          seeProfileInput: {
             username,
          },
       },
    });
-   console.log('seeProfile', data);
+
+   const getButton = (seeProfile: IProfile) => {
+      const { isMe, isFollowing } = seeProfile;
+      if (isMe) {
+         return <ProfileBtn>Edit Profile</ProfileBtn>;
+      }
+      if (isFollowing) {
+         return <ProfileBtn>UnFollow</ProfileBtn>;
+      } else {
+         return <ProfileBtn>Follow</ProfileBtn>;
+      }
+   };
+
    return (
       <div>
          <Header>
+            <PageTitle title={loading ? 'Loading...' : `${data?.seeProfile?.username}`} />
             <Avatar src={data?.seeProfile?.user?.avatar} />
             <Column>
                <Row>
                   <Username>{data?.seeProfile?.user?.username}</Username>
+                  {data?.seeProfile ? getButton(data.seeProfile) : null}
                </Row>
                <Row>
                   <List>

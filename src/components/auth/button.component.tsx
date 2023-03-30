@@ -13,5 +13,5 @@ const SButton = styled.input`
    opacity: ${(props) => (props.disabled ? '0.2' : '1')};
 `;
 
-const Button = (props: { type: string; value: string; disabled: boolean }) => <SButton {...props} />;
+const Button = (props: { type?: string; value?: string; disabled?: boolean }) => <SButton {...props} />;
 export default Button;
