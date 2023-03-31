@@ -120,7 +120,6 @@ function SignUp() {
                createUserInput: {
                   firstName: data.firstName,
                   lastName: data.lastName,
-                  username: data.username,
                   email: data.email,
                   password: data.password,
                },
@@ -150,18 +149,22 @@ function SignUp() {
             </Separator>
             <form onSubmit={handleSubmit(onValid)} onClick={() => clearErrors()}>
                <Input
-                  type='text'
-                  placeholder='Username'
-                  hasError={Boolean(errors?.username?.message)}
-                  {...register('username', {
-                     required: '닉네임은 필수 입니다.',
+                  type='email'
+                  placeholder='Email'
+                  hasError={Boolean(errors?.email?.message)}
+                  {...register('email', {
+                     required: '이메일은 필수 입니다.',
                      minLength: {
                         value: 5,
-                        message: '닉네임은 5자 이상이어야 합니다.',
+                        message: '이메일은 5자 이상이어야 합니다.',
+                     },
+                     pattern: {
+                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: '이메일 형식이 아닙니다.',
                      },
                   })}
                />
-               <FormError message={errors?.username?.message} />
+               <FormError message={errors?.email?.message} />
                <Input
                   type='text'
                   placeholder='First Name'
@@ -180,23 +183,6 @@ function SignUp() {
                   })}
                />
                <FormError message={errors?.lastName?.message} />
-               <Input
-                  type='email'
-                  placeholder='Email'
-                  hasError={Boolean(errors?.email?.message)}
-                  {...register('email', {
-                     required: '이메일은 필수 입니다.',
-                     minLength: {
-                        value: 5,
-                        message: '이메일은 5자 이상이어야 합니다.',
-                     },
-                     pattern: {
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                        message: '이메일 형식이 아닙니다.',
-                     },
-                  })}
-               />
-               <FormError message={errors?.email?.message} />
                <Input
                   type='password'
                   placeholder='Password'

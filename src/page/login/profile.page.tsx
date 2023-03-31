@@ -8,6 +8,7 @@ import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 import PageTitle from '../../components/page-title.component';
 import { unFollowUser } from '../../__generated__/unFollowUser';
 import { followUser } from '../../__generated__/followUser';
+import useUser from '../../hooks/use-user.hook';
 
 interface IProfile {
    user: {
@@ -159,6 +160,7 @@ const UN_FOLLOW_USER_MUTATION = gql`
 
 const Profile = () => {
    const { username } = useParams();
+   const { data: userData } = useUser();
    const { data, loading } = useQuery(SEE_PROFILE_QUERY, {
       variables: {
          seeProfileInput: {
@@ -190,6 +192,16 @@ const Profile = () => {
             },
          },
       });
+
+      const { me } = userData;
+      cache.modify({
+         id: `User:${me.username}`,
+         fields: {
+            totalFollowing(prev) {
+               return prev - 1;
+            },
+         },
+      });
    };
    const followUserCompleted = (data: followUser) => {
       if (!data) return;
@@ -207,6 +219,15 @@ const Profile = () => {
                return true;
             },
             totalFollowers(prev) {
+               return prev + 1;
+            },
+         },
+      });
+      const { me } = userData;
+      cache.modify({
+         id: `User:${me.username}`,
+         fields: {
+            totalFollowing(prev) {
                return prev + 1;
             },
          },
@@ -235,6 +256,7 @@ const Profile = () => {
       const {
          user: { isMe, isFollowing },
       } = seeProfile;
+      console.log(seeProfile);
       if (isMe) {
          return <ProfileBtn>Edit Profile</ProfileBtn>;
       }
