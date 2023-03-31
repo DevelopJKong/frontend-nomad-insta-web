@@ -1,15 +1,19 @@
 import { useParams } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation, ApolloCache, FetchResult, useApolloClient } from '@apollo/client';
 import { PHOTO_FRAGMENT } from '../../common/fragments/common.fragment';
 import styled from 'styled-components';
 import { FatText } from '../../components/shared';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 import PageTitle from '../../components/page-title.component';
+import { unFollowUser } from '../../__generated__/unFollowUser';
+import { followUser } from '../../__generated__/followUser';
 
 interface IProfile {
-   isMe: boolean;
-   isFollowing: boolean;
+   user: {
+      isMe: boolean;
+      isFollowing: boolean;
+   };
 }
 
 const Header = styled.div`
@@ -62,11 +66,16 @@ const Grid = styled.div`
    margin-top: 50px;
 `;
 
-const Photo = styled.div<{ bg: string }>`
-   background-image: url('${({ bg }) => bg}');
-   background-size: cover;
+const Photo = styled.div`
    position: relative;
    cursor: pointer;
+`;
+
+const PhotoImg = styled.img`
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   position: absolute;
 `;
 
 const Icons = styled.div`
@@ -103,9 +112,10 @@ const ProfileBtn = styled.span`
    background-color: ${(props) => props.theme.accent};
    color: white;
    text-align: center;
-   padding: 8px 0px;
+   padding: 8px 25px;
    font-weight: 600;
    width: 100%;
+   cursor: pointer;
 `;
 
 const SEE_PROFILE_QUERY = gql`
@@ -121,11 +131,11 @@ const SEE_PROFILE_QUERY = gql`
             photos {
                ...PhotoFragment
             }
+            totalFollowers
+            totalFollowing
+            isMe
+            isFollowing
          }
-         totalFollowers
-         totalFollowing
-         isMe
-         isFollowing
       }
    }
    ${PHOTO_FRAGMENT}
@@ -157,15 +167,81 @@ const Profile = () => {
       },
    });
 
+   const client = useApolloClient();
+
+   const unFollowUserUpdate = (cache: ApolloCache<any>, result: Omit<FetchResult<unFollowUser>, 'context'>) => {
+      if (!result?.data) return;
+      const {
+         data: {
+            unFollowUser: { ok },
+         },
+      } = result;
+
+      if (!ok) return;
+
+      cache.modify({
+         id: `User:${username}`,
+         fields: {
+            isFollowing(_prev) {
+               return false;
+            },
+            totalFollowers(prev) {
+               return prev - 1;
+            },
+         },
+      });
+   };
+   const followUserCompleted = (data: followUser) => {
+      if (!data) return;
+      const {
+         followUser: { ok },
+      } = data;
+
+      if (!ok) return;
+
+      const { cache } = client;
+      cache.modify({
+         id: `User:${username}`,
+         fields: {
+            isFollowing(_prev) {
+               return true;
+            },
+            totalFollowers(prev) {
+               return prev + 1;
+            },
+         },
+      });
+   };
+
+   const [unFollowUser] = useMutation(UN_FOLLOW_USER_MUTATION, {
+      variables: {
+         unFollowUserInput: {
+            username,
+         },
+      },
+      update: unFollowUserUpdate,
+   });
+
+   const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
+      variables: {
+         followUserInput: {
+            username,
+         },
+      },
+      onCompleted: followUserCompleted,
+   });
+
    const getButton = (seeProfile: IProfile) => {
-      const { isMe, isFollowing } = seeProfile;
+      const {
+         user: { isMe, isFollowing },
+      } = seeProfile;
       if (isMe) {
          return <ProfileBtn>Edit Profile</ProfileBtn>;
       }
       if (isFollowing) {
-         return <ProfileBtn>UnFollow</ProfileBtn>;
+         return <ProfileBtn onClick={() => unFollowUser()}>UnFollow</ProfileBtn>;
       } else {
-         return <ProfileBtn>Follow</ProfileBtn>;
+         return <ProfileBtn onClick={() => followUser()}>Follow</ProfileBtn>;
       }
    };
 
@@ -183,12 +259,12 @@ const Profile = () => {
                   <List>
                      <Item>
                         <span>
-                           <Value>{data?.seeProfile?.totalFollowers}</Value> followers
+                           <Value>{data?.seeProfile?.user?.totalFollowers}</Value> followers
                         </span>
                      </Item>
                      <Item>
                         <span>
-                           <Value>{data?.seeProfile?.totalFollowing}</Value> following
+                           <Value>{data?.seeProfile?.user?.totalFollowing}</Value> following
                         </span>
                      </Item>
                   </List>
@@ -203,9 +279,9 @@ const Profile = () => {
          </Header>
          <Grid>
             {data?.seeProfile?.user?.photos?.map((photo: any, index: number) => {
-               console.log(photo.file);
                return (
-                  <Photo key={index} bg={photo.file}>
+                  <Photo key={index}>
+                     <PhotoImg src={photo.file} alt={`photo-${index}`} />
                      <Icons>
                         <Icon>
                            <FontAwesomeIcon icon={faHeart} />

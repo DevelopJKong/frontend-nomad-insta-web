@@ -24,6 +24,10 @@ export interface DeleteCommentInput {
   id: number;
 }
 
+export interface FollowUserInput {
+  username: string;
+}
+
 export interface LoginInput {
   email: string;
   password: string;
@@ -35,6 +39,10 @@ export interface SeeProfileInput {
 
 export interface ToggleLikeInput {
   id: number;
+}
+
+export interface UnFollowUserInput {
+  username: string;
 }
 
 //==============================================================

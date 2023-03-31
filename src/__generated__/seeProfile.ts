@@ -27,15 +27,15 @@ export interface seeProfile_seeProfile_user {
   bio: string | null;
   avatar: string | null;
   photos: seeProfile_seeProfile_user_photos[] | null;
+  totalFollowers: number | null;
+  totalFollowing: number | null;
+  isMe: boolean | null;
+  isFollowing: boolean | null;
 }
 
 export interface seeProfile_seeProfile {
   __typename: "SeeProfileOutput";
   user: seeProfile_seeProfile_user;
-  totalFollowers: number | null;
-  totalFollowing: number | null;
-  isMe: boolean | null;
-  isFollowing: boolean | null;
 }
 
 export interface seeProfile {
