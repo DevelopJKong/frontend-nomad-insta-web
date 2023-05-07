@@ -1,0 +1,447 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+type Comment {
+    createdAt: DateTime
+    id: Float!
+    isMine: Boolean!
+    payload: String!
+    photo: Photo
+    photoId: Float
+    updatedAt: DateTime
+    user: User
+    userId: Float
+}
+
+type CoreOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type CreateCommentOutput {
+    error: String
+    id: Float!
+    message: String
+    ok: Boolean!
+}
+
+type CreateUserOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type DeleteCommentOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type DeletePhotoOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type EditCommentOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type EditProfileOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type FollowUserOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type GetUserOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    totalPages: Int
+    user: User!
+}
+
+type Hashtag {
+    createdAt: DateTime
+    hashtag: String!
+    id: Float!
+    photos(page: Float!): [Photo!]
+    totalPhotos: Float!
+    updatedAt: DateTime
+}
+
+type LoginOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    token: String
+}
+
+type MeOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    user: User
+}
+
+type Message {
+    createdAt: DateTime
+    id: Float!
+    message: [Message!]!
+    payload: String
+    read: Boolean
+    room: Room
+    roomId: Float
+    unreadTotal: Float!
+    updatedAt: DateTime
+    user: User
+    userId: Float
+    users: [User!]!
+}
+
+type Mutation {
+    createComment(input: CreateCommentInput!): CreateCommentOutput!
+    createUser(input: CreateUserInput!): CreateUserOutput!
+    deleteComment(input: DeleteCommentInput!): DeleteCommentOutput!
+    deletePhoto(input: DeletePhotoInput!): DeletePhotoOutput!
+    editComment(input: EditCommentInput!): EditCommentOutput!
+    editProfile(input: EditProfileInput!): EditProfileOutput!
+    followUser(input: FollowUserInput!): FollowUserOutput!
+    login(input: LoginInput!): LoginOutput!
+    readMessage(input: ReadMessageInput!): ReadMessageOutput!
+    sendMessage(input: SendMessageInput!): SendMessageOutput!
+    toggleLike(input: ToggleLikeInput!): ToggleLikeOutput!
+    unFollowUser(input: UnFollowUserInput!): UnFollowUserOutput!
+    uploadPhoto(input: UploadPhotoInput!): UploadPhotoOutput!
+}
+
+type Photo {
+    caption: String
+    commentNumber: Float
+    comments: [Comment!]
+    createdAt: DateTime
+    file: String!
+    hashtags: [Hashtag!]
+    id: Float!
+    isLiked: Boolean
+    isMine: Boolean
+    likes: Float
+    updatedAt: DateTime
+    user: User
+}
+
+type Query {
+    getUser(input: GetUserInput!): GetUserOutput!
+    hi: CoreOutput!
+    me: MeOutput!
+    searchPhotos(input: SearchPhotosInput!): SearchPhotosOutput!
+    searchUsers(input: SearchUsersInput!): SearchUsersOutput!
+    seeFeed: SeeFeedOutput!
+    seeFollowers(input: SeeFollowersInput!): SeeFollowersOutput!
+    seeFollowing(input: SeeFollowingInput!): SeeFollowingOutput!
+    seeHashtag(input: SeeHashtagInput!): SeeHashtagOutput!
+    seeLikes(input: SeeLikesInput!): SeeLikesOutput!
+    seePhoto(input: SeePhotoInput!): SeePhotoOutput!
+    seePhotoComments(input: SeePhotoCommentsInput!): SeePhotoCommentsOutput!
+    seeProfile(input: SeeProfileInput!): SeeProfileOutput!
+    seeRoom(input: SeeRoomInput!): SeeRoomOutput!
+    seeRooms: SeeRoomsOutput!
+}
+
+type ReadMessageOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type Room {
+    createdAt: DateTime
+    id: Float!
+    messages: [Message!]
+    unreadTotal: Float
+    updatedAt: DateTime
+    users: [User!]
+}
+
+type SearchPhotosOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    photos: [Photo!]
+}
+
+type SearchUsersOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    totalPages: Int
+    users: [User!]
+}
+
+type SeeFeedOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    photos: [Photo!]
+}
+
+type SeeFollowersOutput {
+    error: String
+    followers: [User!]
+    message: String
+    ok: Boolean!
+    totalPages: Float
+}
+
+type SeeFollowingOutput {
+    error: String
+    following: [User!]
+    message: String
+    ok: Boolean!
+    totalPages: Float
+}
+
+type SeeHashtagOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    photos: [Photo!]
+    totalPhotos: Float
+}
+
+type SeeLikesOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    user: [User!]
+}
+
+type SeePhotoCommentsOutput {
+    comments: [Comment!]
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type SeePhotoOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    photo: Photo
+}
+
+type SeeProfileOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    totalPages: Int
+    user: User!
+}
+
+type SeeRoomOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    room: Room
+}
+
+type SeeRoomsOutput {
+    error: String
+    message: String
+    ok: Boolean!
+    rooms: [Room!]
+}
+
+type SendMessageOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type Subscription {
+    roomUpdates(input: RoomUpdatesInput!): Message!
+}
+
+type ToggleLikeOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type UnFollowUserOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type UploadPhotoOutput {
+    error: String
+    message: String
+    ok: Boolean!
+}
+
+type User {
+    avatar: String
+    bio: String
+    comments: Float
+    createdAt: DateTime
+    email: String!
+    firstName: String!
+    followers: [User!]
+    following: [User!]
+    id: Float!
+    isFollowing: Boolean
+    isMe: Boolean
+    lastName: String!
+    password: String!
+    photos: [Photo!]
+    role: Role!
+    totalFollowers: Float
+    totalFollowing: Float
+    updatedAt: DateTime
+    username: String!
+}
+
+enum Role {
+    ADMIN
+    USER
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
+
+input CreateCommentInput {
+    payload: String!
+    photoId: Float!
+}
+
+input CreateUserInput {
+    email: String!
+    firstName: String!
+    lastName: String!
+    password: String!
+}
+
+input DeleteCommentInput {
+    id: Float!
+}
+
+input DeletePhotoInput {
+    id: Float!
+}
+
+input EditCommentInput {
+    id: Float!
+    payload: String!
+}
+
+input EditProfileInput {
+    avatarField: Upload
+    bio: String
+    email: String
+    firstName: String
+    lastName: String
+    password: String
+    username: String
+}
+
+input FollowUserInput {
+    username: String!
+}
+
+input GetUserInput {
+    id: Float!
+}
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input ReadMessageInput {
+    id: Float!
+}
+
+input RoomUpdatesInput {
+    id: Float!
+}
+
+input SearchPhotosInput {
+    keyword: String
+}
+
+input SearchUsersInput {
+    keyword: String!
+}
+
+input SeeFollowersInput {
+    page: Float!
+    username: String!
+}
+
+input SeeFollowingInput {
+    lastId: Float!
+    username: String!
+}
+
+input SeeHashtagInput {
+    hashtag: String!
+    page: Float
+}
+
+input SeeLikesInput {
+    id: Float!
+}
+
+input SeePhotoCommentsInput {
+    id: Float!
+    page: Float
+}
+
+input SeePhotoInput {
+    id: Float!
+}
+
+input SeeProfileInput {
+    username: String!
+}
+
+input SeeRoomInput {
+    id: Float!
+}
+
+input SendMessageInput {
+    payload: String
+    roomId: Float
+    userId: Float
+}
+
+input ToggleLikeInput {
+    id: Float!
+}
+
+input UnFollowUserInput {
+    username: String!
+}
+
+input UploadPhotoInput {
+    caption: String
+    photoFile: Upload
+}
