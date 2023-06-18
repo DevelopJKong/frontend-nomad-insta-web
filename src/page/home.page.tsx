@@ -9,8 +9,8 @@ import { COMMENT_FRAGMENT, PHOTO_FRAGMENT } from '../common/fragments/common.fra
 const Container = styled.div``;
 
 const FEED_QUERY = gql`
-   query seeFeed {
-      seeFeed {
+   query seeFeed($input: SeeFeedInput!) {
+      seeFeed(input: $input) {
          photos {
             ...PhotoFragment
             user {

@@ -3,6 +3,8 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { SeeFeedInput } from "./globalTypes";
+
 // ====================================================
 // GraphQL query operation: seeFeed
 // ====================================================
@@ -49,4 +51,8 @@ export interface seeFeed_seeFeed {
 
 export interface seeFeed {
   seeFeed: seeFeed_seeFeed;
+}
+
+export interface seeFeedVariables {
+  input: SeeFeedInput;
 }

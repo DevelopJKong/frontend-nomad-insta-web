@@ -32,6 +32,10 @@ export interface LoginInput {
   password: string;
 }
 
+export interface SeeFeedInput {
+  page: number;
+}
+
 export interface SeeProfileInput {
   username: string;
 }
