@@ -3,6 +3,8 @@ import { setContext } from '@apollo/client/link/context';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { LOCAL_STORAGE_TOKEN, LOCAL_STORAGE_DARK_MODE } from './common/constants/common.constant';
+import { seeFeed_seeFeed as ISeeFeed, seeFeed_seeFeed_photos as ISeeFeedPhotos } from './__generated__/seeFeed';
+import * as _ from 'lodash';
 
 const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
 const mode = Boolean(localStorage.getItem(LOCAL_STORAGE_DARK_MODE));
@@ -72,6 +74,7 @@ export const client = new ApolloClient({
          User: {
             keyFields: (obj) => `User:${obj.username}`,
          },
+
          Query: {
             fields: {
                isLoggedIn: {
@@ -87,6 +90,22 @@ export const client = new ApolloClient({
                darkMode: {
                   read() {
                      return darkModeVar();
+                  },
+               },
+
+               seeFeed: {
+                  keyArgs: false,
+                  merge(existing: ISeeFeed, incoming: ISeeFeed) {
+                     if (existing) {
+                        return {
+                           ...existing,
+                           photos: [
+                              ...(!_.isEmpty(existing?.photos as ISeeFeedPhotos[]) ? (existing.photos as ISeeFeedPhotos[]) : []),
+                              ...(!_.isEmpty(incoming?.photos as ISeeFeedPhotos[]) ? (incoming.photos as ISeeFeedPhotos[]) : []),
+                           ],
+                        };
+                     }
+                     return incoming;
                   },
                },
             },

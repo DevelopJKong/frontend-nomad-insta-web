@@ -6,9 +6,9 @@ import { FatText } from '../../components/shared';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 import PageTitle from '../../components/page-title.component';
-import { unFollowUser } from '../../__generated__/unFollowUser';
-import { followUser } from '../../__generated__/followUser';
 import useUser from '../../hooks/use-user.hook';
+import { unFollowerUser } from '../../__generated__/unFollowerUser';
+import { followerUser } from '../../__generated__/followerUser';
 
 interface IProfile {
    user: {
@@ -136,6 +136,14 @@ const SEE_PROFILE_QUERY = gql`
             totalFollowing
             isMe
             isFollowing
+            following {
+               id
+               username
+            }
+            followers {
+               id
+               username
+            }
          }
       }
    }
@@ -143,16 +151,16 @@ const SEE_PROFILE_QUERY = gql`
 `;
 
 const FOLLOW_USER_MUTATION = gql`
-   mutation followUser($followUserInput: FollowUserInput!) {
-      followUser(input: $followUserInput) {
+   mutation followerUser($followerUserInput: FollowerUserInput!) {
+      followerUser(input: $followerUserInput) {
          ok
       }
    }
 `;
 
 const UN_FOLLOW_USER_MUTATION = gql`
-   mutation unFollowUser($unFollowUserInput: UnFollowUserInput!) {
-      unFollowUser(input: $unFollowUserInput) {
+   mutation unFollowerUser($unFollowerUserInput: UnFollowerUserInput!) {
+      unFollowerUser(input: $unFollowerUserInput) {
          ok
       }
    }
@@ -171,11 +179,11 @@ const Profile = () => {
 
    const client = useApolloClient();
 
-   const unFollowUserUpdate = (cache: ApolloCache<any>, result: Omit<FetchResult<unFollowUser>, 'context'>) => {
+   const unFollowerUserUpdate = (cache: ApolloCache<any>, result: Omit<FetchResult<unFollowerUser>, 'context'>) => {
       if (!result?.data) return;
       const {
          data: {
-            unFollowUser: { ok },
+            unFollowerUser: { ok },
          },
       } = result;
 
@@ -203,10 +211,10 @@ const Profile = () => {
          },
       });
    };
-   const followUserCompleted = (data: followUser) => {
+   const followerUserCompleted = (data: followerUser) => {
       if (!data) return;
       const {
-         followUser: { ok },
+         followerUser: { ok },
       } = data;
 
       if (!ok) return;
@@ -234,38 +242,39 @@ const Profile = () => {
       });
    };
 
-   const [unFollowUser] = useMutation(UN_FOLLOW_USER_MUTATION, {
+   const [unFollowerUser] = useMutation(UN_FOLLOW_USER_MUTATION, {
       variables: {
-         unFollowUserInput: {
+         unFollowerUserInput: {
             username,
          },
       },
-      update: unFollowUserUpdate,
+      update: unFollowerUserUpdate,
    });
 
-   const [followUser] = useMutation(FOLLOW_USER_MUTATION, {
+   const [followerUser] = useMutation(FOLLOW_USER_MUTATION, {
       variables: {
-         followUserInput: {
+         followerUserInput: {
             username,
          },
       },
-      onCompleted: followUserCompleted,
+      onCompleted: followerUserCompleted,
    });
 
    const getButton = (seeProfile: IProfile) => {
       const {
          user: { isMe, isFollowing },
       } = seeProfile;
-      console.log(seeProfile);
       if (isMe) {
          return <ProfileBtn>Edit Profile</ProfileBtn>;
       }
       if (isFollowing) {
-         return <ProfileBtn onClick={() => unFollowUser()}>UnFollow</ProfileBtn>;
+         return <ProfileBtn onClick={() => unFollowerUser()}>UnFollow</ProfileBtn>;
       } else {
-         return <ProfileBtn onClick={() => followUser()}>Follow</ProfileBtn>;
+         return <ProfileBtn onClick={() => followerUser()}>Follow</ProfileBtn>;
       }
    };
+
+   if (loading) return <div>Loading...</div>;
 
    return (
       <div>

@@ -23,7 +23,7 @@ export interface DeleteCommentInput {
   id: number;
 }
 
-export interface FollowUserInput {
+export interface FollowerUserInput {
   username: string;
 }
 
@@ -44,7 +44,7 @@ export interface ToggleLikeInput {
   id: number;
 }
 
-export interface UnFollowUserInput {
+export interface UnFollowerUserInput {
   username: string;
 }
 

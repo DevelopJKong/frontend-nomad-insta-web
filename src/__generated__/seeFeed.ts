@@ -54,5 +54,5 @@ export interface seeFeed {
 }
 
 export interface seeFeedVariables {
-  input: SeeFeedInput;
+  seeFeedInput: SeeFeedInput;
 }

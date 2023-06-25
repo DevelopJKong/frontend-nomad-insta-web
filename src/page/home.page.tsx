@@ -39,6 +39,8 @@ const Home = () => {
       },
    });
 
+   console.log(data);
+
    if (loading) return <div>Loading...</div>;
    if (!loading && !data?.seeFeed) {
       window.location.href = '/';

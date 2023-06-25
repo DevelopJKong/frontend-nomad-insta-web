@@ -18,6 +18,18 @@ export interface seeProfile_seeProfile_user_photos {
   isLiked: boolean | null;
 }
 
+export interface seeProfile_seeProfile_user_following {
+  __typename: "User";
+  id: number;
+  username: string;
+}
+
+export interface seeProfile_seeProfile_user_followers {
+  __typename: "User";
+  id: number;
+  username: string;
+}
+
 export interface seeProfile_seeProfile_user {
   __typename: "User";
   id: number;
@@ -31,6 +43,8 @@ export interface seeProfile_seeProfile_user {
   totalFollowing: number | null;
   isMe: boolean | null;
   isFollowing: boolean | null;
+  following: seeProfile_seeProfile_user_following[] | null;
+  followers: seeProfile_seeProfile_user_followers[] | null;
 }
 
 export interface seeProfile_seeProfile {

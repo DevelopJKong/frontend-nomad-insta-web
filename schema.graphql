@@ -1,4 +1,4 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
+# This file was generated. Do not edit manually.
 
 schema {
     query: Query
@@ -61,7 +61,7 @@ type EditProfileOutput {
     ok: Boolean!
 }
 
-type FollowUserOutput {
+type FollowerUserOutput {
     error: String
     message: String
     ok: Boolean!
@@ -120,7 +120,7 @@ type Mutation {
     deletePhoto(input: DeletePhotoInput!): DeletePhotoOutput!
     editComment(input: EditCommentInput!): EditCommentOutput!
     editProfile(input: EditProfileInput!): EditProfileOutput!
-    followUser(input: FollowUserInput!): FollowUserOutput!
+    followUser(input: FollowerUserInput!): FollowerUserOutput!
     login(input: LoginInput!): LoginOutput!
     readMessage(input: ReadMessageInput!): ReadMessageOutput!
     sendMessage(input: SendMessageInput!): SendMessageOutput!
@@ -150,7 +150,7 @@ type Query {
     me: MeOutput!
     searchPhotos(input: SearchPhotosInput!): SearchPhotosOutput!
     searchUsers(input: SearchUsersInput!): SearchUsersOutput!
-    seeFeed: SeeFeedOutput!
+    seeFeed(input: SeeFeedInput!): SeeFeedOutput!
     seeFollowers(input: SeeFollowersInput!): SeeFollowersOutput!
     seeFollowing(input: SeeFollowingInput!): SeeFollowingOutput!
     seeHashtag(input: SeeHashtagInput!): SeeHashtagOutput!
@@ -305,6 +305,7 @@ type User {
     following: [User!]
     id: Float!
     isFollowing: Boolean
+    isFollowingCheck: Boolean
     isMe: Boolean
     lastName: String!
     password: String!
@@ -362,7 +363,7 @@ input EditProfileInput {
     username: String
 }
 
-input FollowUserInput {
+input FollowerUserInput {
     username: String!
 }
 
@@ -389,6 +390,10 @@ input SearchPhotosInput {
 
 input SearchUsersInput {
     keyword: String!
+}
+
+input SeeFeedInput {
+    page: Float! = 1.0
 }
 
 input SeeFollowersInput {
